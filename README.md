@@ -1,2 +1,3 @@
-# helen_front
-Helen es una red social desarrollada en Spring Boot que permite a los usuarios compartir fotos, conectarse con amigos y descubrir contenido visual inspirador. Con una interfaz intuitiva y amigable, Helen ofrece una plataforma segura y confiable para compartir momentos especiales y expresarse a través de imágenes.
+# Proyecto Helen - Red Social
+
+Este es el repositorio oficial del proyecto **Helen**, una red social desarrollada en Spring Boot y ReactJS para compartir fotos y conectarse con amigos. A continuación, se detallan los pasos necesarios para configurar y ejecutar el proyecto.
