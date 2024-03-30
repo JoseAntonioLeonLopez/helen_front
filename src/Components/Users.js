@@ -9,18 +9,30 @@ const Users = () => {
   const { data } = useFetch("users");
 
   return (
-    <div className='App'>
-      <table>
-        {data.map( (data, id)=>(
-          <tr key={id}>
-            <td>{(data.name)}</td>
-            <td>{(data.firstSurname)}</td>
-            <td>{(data.secondSurname)}</td>
-            <td>{(data.email)}</td>
+    <div className='container'>
+      <table className="table">
+        <thead className="thead-dark">
+          <tr>
+            <th>Name</th>
+            <th>First Surname</th>
+            <th>Second Surname</th>
+            <th>Email</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {data.map((item, id) => (
+            <tr key={id}>
+              <td>{item.name}</td>
+              <td>{item.firstSurname}</td>
+              <td>{item.secondSurname}</td>
+              <td>{item.email}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
-      <a href='/publications'>Publications</a>
+      <a href='/' className="btn btn-primary">Publications</a>
+      <a href='/login' className="btn btn-primary">Login</a>
+      <a href='/register' className="btn btn-primary">Register</a>
     </div>
   )
 }
