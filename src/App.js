@@ -3,12 +3,14 @@ import Users from './Components/Users'
 import Publications from './Components/Publications'
 import Login from './Components/Login'
 import Register from './Components/Register'
+import User from './Components/User'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Publications></Publications>}></Route>
+        <Route path="/user" element={<User></User>}></Route>
         <Route path="/users" element={<Users></Users>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/register" element={<Register></Register>}></Route>
