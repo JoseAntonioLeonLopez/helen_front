@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
-const PublicationForm = () => {
+const Publication = () => {
   return (
-    <div className='container App'>
+    <div>
       <h2>Publicaciones</h2>
-      <a href='/users' className="btn btn-primary">Usuarios</a>
+      <p>Pantalla con todas las publicaciones con scroll infinito</p>
     </div>
   );
 };
 
-export default PublicationForm;
+export default Publication;

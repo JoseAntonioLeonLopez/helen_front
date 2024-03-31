@@ -2,8 +2,9 @@ import React from 'react'
 
 function User() {
   return (
-    <div className='container'>
-        <div>Pantalla del perfil de un usuario</div>
+    <div>
+      <h2>Perfil</h2>
+      <p>Pantalla del perfil de un usuario</p>
     </div>
   )
 }

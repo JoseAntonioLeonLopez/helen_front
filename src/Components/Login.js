@@ -2,8 +2,9 @@ import React from 'react'
 
 function Login() {
   return (
-    <div className='container'>
-        <div>Login</div>
+    <div>
+      <h2>Login</h2>
+      <p>Pantalla de login</p>
     </div>
   )
 }
