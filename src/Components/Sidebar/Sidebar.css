@@ -1,5 +1,64 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz@9..40&family=Poppins&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
-body {
-    font-family: "Rubik", sans-serif;
-}
+#sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow-x: hidden;
+    padding-top: 20px;
+    background-color: #292929; /* Cambiamos el color del sidebar */
+    border-right: 1px solid #656565;
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    text-align: center; /* Centramos el texto del header */
+  }
+  
+  .sidebar-header img {
+    width: 100px; /* Ajustamos el ancho de la imagen */
+  }
+  
+  #sidebar ul.components {
+    padding: 20px 0;
+  }
+  
+  #sidebar ul li {
+    margin-bottom: 10px;
+  }
+  
+  #sidebar ul li a {
+    padding: 10px 15px;
+    font-size: 1.1em;
+    display: flex; /* Hacemos que los íconos y el texto estén en línea */
+    align-items: center; /* Centramos verticalmente los íconos y el texto */
+    color: #dcdcdc;
+    text-decoration: none; /* Quitamos el subrayado de los enlaces */
+  }
+  
+  #sidebar ul li a:hover {
+    background-color: #333;
+    color: #fff; /* Cambiamos el color del texto al hacer hover */
+  }
+  
+  #sidebar ul li a i {
+    margin-right: 10px; /* Añadimos espacio entre el ícono y el texto */
+  }
+  
+  .logout {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .logout a {
+    color: #dcdcdc;
+  }
+  
+  .logout a:hover {
+    color: #fff;
+  }
+  

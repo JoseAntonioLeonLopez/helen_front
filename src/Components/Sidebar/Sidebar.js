@@ -1,21 +1,44 @@
-import React from 'react';
-import { Container, Row, Col, Nav } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
-import './Sidebar.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Sidebar.css";
 
-function Sidebar() {
+const Sidebar = () => {
   return (
-    <div className='sidebar mt-3'>
-      <Nav defaultActiveKey="/" className="flex-column">
-        <Nav.Link as={Link} to={"/"} className="pb-2">Inicio</Nav.Link>
-        <div className="border-right border-dark my-1"></div>
-        <Nav.Link as={Link} to={"/users"} className="pb-2">Explorar</Nav.Link>
-        <div className="border-right border-dark my-1"></div>
-        <Nav.Link as={Link} to={"/topPublications"} className="pb-2">Mejores fotos</Nav.Link>
-      </Nav>
-    </div>
+    <nav id="sidebar">
+      <div className="sidebar-header">
+        <Link to="/">
+          <img src="/img/helen.svg" alt="Helen Logo" />
+        </Link>
+      </div>
+      <ul className="list-unstyled components">
+        <li>
+          <Link to="/">
+            <i className="fas fa-home"></i> Publicaciones
+          </Link>
+        </li>
+        <li>
+          <Link to="/user">
+            <i className="fas fa-user"></i> Perfil
+          </Link>
+        </li>
+        <li>
+          <Link to="/users">
+            <i className="fas fa-users"></i> Explorar
+          </Link>
+        </li>
+        <li>
+          <Link to="/topPublications">
+            <i className="fas fa-star"></i> Top Publicaciones
+          </Link>
+        </li>
+      </ul>
+      <div className="logout">
+        <Link to="/logout">
+          <i className="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </Link>
+      </div>
+    </nav>
   );
-}
+};
 
 export default Sidebar;

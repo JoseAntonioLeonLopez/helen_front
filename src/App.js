@@ -15,9 +15,9 @@ import './App.css';
 function App() {
   return (
     <Router>
-      <div className="d-flex">
+      <div className="d-flex" >
         <Sidebar />
-        <div className="content">
+        <Container fluid className="content">
           <Routes>
             <Route path="/" element={<Publications />} />
             <Route path="/user" element={<User />} />
@@ -26,7 +26,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
           </Routes>
-        </div>
+        </Container>
       </div>
     </Router>
   );
