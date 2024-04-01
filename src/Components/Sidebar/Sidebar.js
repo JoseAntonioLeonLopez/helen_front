@@ -31,6 +31,11 @@ const Sidebar = () => {
             <i className="fas fa-star"></i> <span>Top Publicaciones</span>
           </Link>
         </li>
+        <li>
+          <Link to="/addPublications">
+            <i className="fas fa-add"></i> <span>Crear Publicacion</span>
+          </Link>
+        </li>
       </ul>
       <div className="logout">
         <Link to="/logout">
