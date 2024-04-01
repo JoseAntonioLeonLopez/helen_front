@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; // Importar Link desde react-router-dom
+import { Link } from 'react-router-dom'; 
 import './Auth.css';
 
 function Login() {
@@ -25,10 +25,11 @@ function Login() {
     <div>
       <div className="sidenav">
         <div className="login-main-text">
-          <h2><img src='/img/helen.svg' alt="logo"></img><br />Comparte experiencias!!</h2>
+          <h2><img src='/img/helen-letras.gif' alt="logo"></img><br />Comparte experiencias!!</h2>
           <p>Entra o regístrate para empezar la aventura.</p>
         </div>
       </div>
+      
       <div className="main d-flex justify-content-center">
         <div className="col-md-6 col-sm-12">
           <div className="login-form">

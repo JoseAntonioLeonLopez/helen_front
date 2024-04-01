@@ -1,0 +1,14 @@
+.mainSpinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #18181b;
+    color: #dcdcdc;
+    height: 100vh;
+  }
+  
+  .spinner-grow {
+    width: 5rem; /* Ajusta el tamaño del spinner */
+    height: 5rem; /* Ajusta el tamaño del spinner */
+  }
+  

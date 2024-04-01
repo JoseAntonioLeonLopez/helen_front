@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
+import './Logout.css';
 
 function Logout() {
 
@@ -12,9 +13,10 @@ function Logout() {
   }, []);
 
   return (
-    <div>
-      <h2>Logout</h2>
-      <p>Pantalla de cerrar sesión</p>
+    <div className='mainSpinner'>
+      <div className="spinner-grow" role="status">
+        <span className="visually-hidden">Cerrando sesión...</span>
+      </div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ const Sidebar = () => {
     <nav id="sidebar">
       <div className="sidebar-header">
         <Link to="/publications">
-          <img className="logo-letras" src="/img/helen.svg" alt="Helen Logo" />
+          <img className="logo-letras" src="/img/helen-letras.gif" alt="Helen Logo" />
         </Link>
       </div>
       <ul className="list-unstyled components">
