@@ -11,12 +11,17 @@ import Logout from "./Components/Auth/Logout";
 import TopPublications from "./Components/Publications/TopPublications";
 import AddPublications from "./Components/Publications/AddPublications";
 import Publications from "./Components/Publications/Publications";
-import './App.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <div>
+        {/* Colocar ToastContainer fuera de las rutas */}
+        <ToastContainer />
+        
         {/* Definir Sidebar solo para las rutas que lo necesitan */}
         <Routes>
           <Route path="/" element={<Login />} />
