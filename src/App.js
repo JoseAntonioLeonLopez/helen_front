@@ -11,6 +11,7 @@ import Logout from "./Components/Auth/Logout";
 import TopPublications from "./Components/Publications/TopPublications";
 import AddPublications from "./Components/Publications/AddPublications";
 import Publications from "./Components/Publications/Publications";
+import NotFound from "./Components/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
@@ -24,6 +25,7 @@ function App() {
         
         {/* Definir Sidebar solo para las rutas que lo necesitan */}
         <Routes>
+          <Route path="*" element={<NotFound/>}></Route>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
