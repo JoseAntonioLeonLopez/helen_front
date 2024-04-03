@@ -27,7 +27,7 @@ const Publication = () => {
   };
 
   return (
-    <div className="container">
+    <div >
       <h2>Publicaciones</h2>
       <p>Pantalla con todas las publicaciones con scroll infinito</p>
 

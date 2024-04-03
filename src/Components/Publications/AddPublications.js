@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./AddPublications.css";
 import { Spinner } from "react-bootstrap";
 import { usePost } from "../../Hooks/useHooks";
 
@@ -27,7 +26,7 @@ function AddPublications() {
     formData.append("fkUser", 1);
 
     try {
-      await postData("publications/addPublication", formData);
+      await postData("publications", formData);
 
       // Mostrar tostada de éxito
       toast.success("Publicación subida exitosamente", {
@@ -54,66 +53,83 @@ function AddPublications() {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Crear Publicación</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="image" className="form-label">
+    <div className="max-w-md mx-auto mt-5">
+      <form
+        onSubmit={handleSubmit}
+        className="shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="block text-gray-200 text-sm font-bold mb-2"
+          >
             Imagen:
           </label>
           <input
             type="file"
-            className="form-control"
             id="image"
             onChange={(e) => setFile(e.target.files[0])}
             accept="image/*"
+            className="appearance-none bg-gray-800 border rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">
+        <div className="mb-4">
+          <label
+            htmlFor="title"
+            className="block text-gray-200 text-sm font-bold mb-2"
+          >
             Título:
           </label>
           <input
             type="text"
-            className="form-control"
             id="title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            className="appearance-none bg-gray-800 border rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="description" className="form-label">
+        <div className="mb-4">
+          <label
+            htmlFor="description"
+            className="block text-gray-200 text-sm font-bold mb-2"
+          >
             Descripción:
           </label>
           <textarea
-            className="form-control"
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            className="appearance-none bg-gray-800 border rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <div className="mb-3">
-          <label htmlFor="city" className="form-label">
+        <div className="mb-4">
+          <label
+            htmlFor="city"
+            className="block text-gray-200 text-sm font-bold mb-2"
+          >
             Ciudad:
           </label>
           <input
             type="text"
-            className="form-control"
             id="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            className="appearance-none bg-gray-800 border rounded w-full py-2 px-3 text-gray-200 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
         </div>
-        <br />
-        {loading && <Spinner animation="border" variant="primary" />}{" "}
-        {/* Mostrar spinner si loading es true */}
-        <br />
-        <button type="submit" className="btn btn-primary">
-          Crear Publicación
-        </button>
+        <div className="flex items-center justify-between">
+          {loading && <Spinner animation="border" variant="light" />}{" "}
+          {/* Mostrar spinner si loading es true */}
+          <button
+            type="submit"
+            className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Crear Publicación
+          </button>
+        </div>
       </form>
     </div>
   );
