@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import './AddPublications.css';
-import { Spinner } from 'react-bootstrap'; // Importar Spinner de react-bootstrap
+import "./AddPublications.css";
+import { Spinner } from "react-bootstrap";
+import { usePost } from "../../Hooks/useHooks";
 
 function AddPublications() {
+  const { postData } = usePost();
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("");
-  const [loading, setLoading] = useState(false); // Estado para controlar la visibilidad del spinner
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true); // Activar el spinner cuando se envíe el formulario
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("multipartFile", file);
@@ -25,20 +27,11 @@ function AddPublications() {
     formData.append("fkUser", 1);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8081/helen/publications/addPublication",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log(response.data);
+      await postData("publications/addPublication", formData);
 
       // Mostrar tostada de éxito
       toast.success("Publicación subida exitosamente", {
-        position: 'top-right'
+        position: "top-right",
       });
 
       // Redireccionar a la página de publicaciones después de un breve retraso
@@ -52,11 +45,11 @@ function AddPublications() {
       toast.error(
         "Error al crear la publicación. Por favor, inténtalo de nuevo más tarde.",
         {
-          position: 'top-right'
+          position: "top-right",
         }
       );
     } finally {
-      setLoading(false); // Desactivar el spinner después de que se complete la carga o ocurra un error
+      setLoading(false);
     }
   };
 
@@ -64,7 +57,6 @@ function AddPublications() {
     <div className="container mt-5">
       <h2 className="mb-4">Crear Publicación</h2>
       <form onSubmit={handleSubmit}>
-      {loading && <Spinner animation="border" variant="primary" />} {/* Mostrar spinner si loading es true */}
         <div className="mb-3">
           <label htmlFor="image" className="form-label">
             Imagen:
@@ -115,6 +107,10 @@ function AddPublications() {
             required
           />
         </div>
+        <br />
+        {loading && <Spinner animation="border" variant="primary" />}{" "}
+        {/* Mostrar spinner si loading es true */}
+        <br />
         <button type="submit" className="btn btn-primary">
           Crear Publicación
         </button>
