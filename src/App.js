@@ -15,17 +15,15 @@ import NotFound from "./Components/NotFound/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <div>
-        {/* Colocar ToastContainer fuera de las rutas */}
         <ToastContainer />
-        
-        {/* Definir Sidebar solo para las rutas que lo necesitan */}
         <Routes>
-          <Route path="*" element={<NotFound/>}></Route>
+          <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
@@ -34,7 +32,7 @@ function App() {
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <User />
+                  <ProtectedRoute element={<User />} />
                 </Container>
               </div>
             }
@@ -45,27 +43,24 @@ function App() {
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <Users />
+                  <ProtectedRoute element={<Users />} />
                 </Container>
               </div>
             }
           />
-          {/* Agrupar las rutas de publicaciones */}
           <Route
             path="/publications/*"
             element={
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <Routes>
-                    <Route path="/" element={<Publications />} />
-                    <Route path="/add" element={<AddPublications />} />
-                    <Route path="/top" element={<TopPublications />} />
-                  </Routes>
+                  <ProtectedRoute element={<Publications />} />
                 </Container>
               </div>
             }
           />
+          <Route path="/add" element={<AddPublications />} />
+          <Route path="/top" element={<TopPublications />} />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </div>

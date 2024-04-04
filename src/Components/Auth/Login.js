@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom'; 
+import { Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom'; 
+import { usePostLogin } from '../../Hooks/useHooks'; 
+import Swal from 'sweetalert2';
 import './Auth.css';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { postData } = usePostLogin();
+  const navigate = useNavigate(); // Hook para la navegación
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Aquí puedes agregar la lógica para enviar los datos del formulario al backend
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // Redireccionar a la página de publicaciones después de hacer clic en "Entrar"
-    window.location.href = '/publications';
+    try {
+      const response = await postData('login', { username, password }); 
+      console.log("token"+response.token);
+      if (response.token) {
+        localStorage.setItem('token', response.token);
+        // Redirigir al usuario a la página protegida después de un inicio de sesión exitoso
+        navigate('/publications');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos',
+        });
+      }
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Usuario o contraseña incorrectos',
+      });
+    }
   };
 
   return (
@@ -35,14 +56,14 @@ function Login() {
           <div className="login-form">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
-                <label>Correo electrónico</label>
-                <input type="email" className="form-control" placeholder="Correo electrónico" />
+                <label>Usuario</label>
+                <input type="text" className="form-control" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
               </div>
               <br />
               <div className="form-group">
                 <label>Contraseña</label>
                 <div className="input-group">
-                  <input type={showPassword ? "text" : "password"} className="form-control" placeholder="Contraseña" />
+                  <input type={showPassword ? "text" : "password"} className="form-control" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
                   <div className="input-group-append">
                     <button className="eye btn btn-outline-secondary" type="button" onClick={togglePasswordVisibility}>
                       {showPassword ? 
@@ -55,7 +76,7 @@ function Login() {
               </div>
               <br />
               <Button type="submit" className="btn btn-black">Entrar</Button>
-              <Link to="/register" className="btn btn-secondary">Registrarse</Link> {/* Enlace a la página de registro */}
+              <Link to="/register" className="btn btn-secondary">Registrarse</Link>
             </form>
           </div>
         </div>

@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
-import { Spinner } from 'react-bootstrap';
+import { useLogout } from '../../Hooks/useHooks'; 
 import './Logout.css';
 
 function Logout() {
+  const { logout } = useLogout(); 
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      window.location.href = '/';
-    }, 1000); 
+    const logoutAndRedirect = async () => {
+      try {
+        await logout();
+        // Redirige a la página de inicio después de cerrar sesión
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+      }
+    };
 
-    return () => clearTimeout(timeout); 
-  }, []);
+    logoutAndRedirect(); // Llama a la función para cerrar sesión y redirigir
+  }, [logout]); 
 
   return (
     <div className='mainSpinner'>

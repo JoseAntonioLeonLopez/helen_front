@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "react-bootstrap";
-import { usePost } from "../../Hooks/useHooks";
+import { usePostPublication } from "../../Hooks/useHooks";
 
 function AddPublications() {
-  const { postData } = usePost();
+  const { postData } = usePostPublication();
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
