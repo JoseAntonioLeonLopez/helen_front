@@ -75,7 +75,10 @@ function Login() {
               </div>
               <br />
               <Button type="submit" className="btn btn-black">Entrar</Button>
-              <Link to="/register" className="btn btn-secondary">Registrarse</Link>
+              <div className="registerLogin-link">
+                <h4>¿No tienes cuenta?</h4>
+                <Link to="/register" className="btn btn-secondary">Registrarse</Link>
+              </div>
             </form>
           </div>
         </div>

@@ -17,13 +17,13 @@ h2 img {
     background-color: #000;
     overflow-x: hidden;
     padding-top: 20px;
-    border-right: 2px solid #989898;
 }
 
 
 .main {
     padding: 0px 10px;
-    background-color: #464646;
+    background: rgb(82,82,82);
+    background: linear-gradient(270deg, rgba(82,82,82,1) 0%, rgba(0,0,0,1) 100%);
     color: #dcdcdc;
 }
 
@@ -63,6 +63,10 @@ h2 img {
     }
 }
 
+.registerLogin-link {
+    text-align: center;
+    margin-top: 20px;
+  }  
 
 .login-main-text{
     margin-top: 20%;

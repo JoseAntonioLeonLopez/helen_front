@@ -208,12 +208,15 @@ function Register() {
                 />
               </div>
               <br />
-              <Link to="/" className="btn btn-secondary">
-                Entrar
-              </Link>
               <Button type="submit" className="btn btn-black">
                 Registrarse
               </Button>
+              <div className="registerLogin-link">
+                <h4>¿Ya tienes cuenta?</h4>
+                <Link to="/" className="btn btn-secondary">
+                  Entrar
+                </Link>
+              </div>
             </form>
           </div>
         </div>
