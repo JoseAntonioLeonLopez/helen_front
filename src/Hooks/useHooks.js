@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { jwtDecode } from 'jwt-decode';
 import axios from "axios";
 
 const api = "http://localhost:8081/helen/";
@@ -57,7 +58,6 @@ export function usePostLogin() {
       const response = await axios.post(url, formData, {
         headers: { "Content-Type": "application/json" },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(`Error creating ${url}:`, error);
@@ -103,7 +103,6 @@ export function usePost() {
       const response = await axios.post(url, formData, {
         headers: { ...headers, "Content-Type": "application/json" },
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(`Error creating ${url}:`, error);
@@ -140,3 +139,33 @@ export function useLogout() {
 
   return { logout };
 }
+
+export const useUserFromToken = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para controlar si la solicitud está en curso
+  const { headers } = useAuthorizationHeader();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token && !user) {
+      const decodedToken = jwtDecode(token);
+      const username = decodedToken.sub;
+
+      setLoading(true); // Establecer loading en true para indicar que la solicitud está en curso
+
+      axios.get(api + 'users/username/' + username, { headers })
+        .then(response => {
+          setUser(response.data);
+          setLoading(false); // Establecer loading en false cuando la solicitud se completa
+        })
+        .catch(error => {
+          console.error(`Error fetching user data for username ${username}:`, error);
+          setLoading(false); // Establecer loading en false incluso si hay un error en la solicitud
+        });
+    }
+  }, []); // Se ejecuta solo una vez al cargar el componente
+
+  return { user, loading };
+};
+

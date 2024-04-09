@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "react-bootstrap";
-import { usePostPublication } from "../../Hooks/useHooks";
+import { usePostPublication, useUserFromToken } from "../../Hooks/useHooks";
 
 function AddPublications() {
   const { postData } = usePostPublication();
@@ -11,6 +11,8 @@ function AddPublications() {
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
+  const user = useUserFromToken();
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +24,7 @@ function AddPublications() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("city", city);
-    formData.append("fkUser", 1);
+    formData.append("fkUser", user.idUser);
 
     try {
       await postData("publications", formData);

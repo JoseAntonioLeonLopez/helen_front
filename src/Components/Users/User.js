@@ -1,33 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { useGet } from '../../Hooks/useHooks';
+import { useUserFromToken } from '../../Hooks/useHooks';
 
 function User() {
-  const [user, setUser] = useState(null);
-  const [username, setUsername] = useState(null);
-
-  useEffect(() => {
-    // Obtener el token del localStorage
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      // Decodificar el token para obtener la información del usuario
-      const decodedToken = jwtDecode(token);
-      setUsername(decodedToken.sub); // Establecer el nombre de usuario en el estado
-    }
-  }, []);
-
-  //Sacar el usuario mediante JWT
-  const { data: userData } = useGet('users/username/' + username);
-
-  useEffect(() => {
-    if (userData) {
-      setUser(userData);
-    }
-  }, [userData]);
-
-  
-  console.log(user);
+  const user = useUserFromToken();
 
   return (
     <div>
@@ -51,6 +26,7 @@ function User() {
           <div>
             <p><b>Nombre:</b> {user.name}</p>
             <p><b>Email:</b> {user.email}</p>
+            <p><b>Ciudad:</b> {user.city}</p>
           </div>
         </div>
       )}
