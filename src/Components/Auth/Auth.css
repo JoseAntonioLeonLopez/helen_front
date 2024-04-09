@@ -84,11 +84,12 @@ h2 img {
 }
 
 .eye {
-    margin-right: 2px;
+    margin-right: 3px;
     display: flex;
     align-items: center;
+    border-style: none;
   }
   
   .eye img {
-    width: 25px; /* Ajusta el tamaño según sea necesario */
+    width: 26px; /* Ajusta el tamaño según sea necesario */
   }

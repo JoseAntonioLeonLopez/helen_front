@@ -64,12 +64,12 @@ function Login() {
                 <div className="input-group">
                   <input type={showPassword ? "text" : "password"} className="form-control" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
                   <div className="input-group-append">
-                    <button className="eye btn btn-outline-secondary" type="button" onClick={togglePasswordVisibility}>
+                    <span className="eye btn btn-outline-secondary" onClick={togglePasswordVisibility}>
                       {showPassword ? 
                         <img src="/img/eye-show.png" alt="Ocultar contraseña" /> : 
                         <img src="/img/eye-hide.png" alt="Mostrar contraseña" />
                       }
-                    </button>
+                    </span>
                   </div>
                 </div>
               </div>

@@ -9,17 +9,17 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
-    username: "",
-    name: "",
-    firstSurname: "",
-    secondSurname: "",
+    username: null,
+    name: null,
+    firstSurname: null,
+    secondSurname: null,
     gender: 1,
-    email: "",
-    password: "",
-    confirmPassword: "",
-    phoneNumber: "",
-    imageUser: "",
-    city: "",
+    email: null,
+    password: null,
+    confirmPassword: null,
+    phoneNumber: null,
+    imageUser: null,
+    city: null,
   });
   const { postData } = usePostRegister();
 
@@ -158,9 +158,8 @@ function Register() {
                     required
                   />
                   <div className="input-group-append">
-                    <button
+                    <span
                       className="eye btn btn-outline-secondary"
-                      type="button"
                       onClick={togglePasswordVisibility}
                     >
                       {showPassword ? (
@@ -168,7 +167,7 @@ function Register() {
                       ) : (
                         <img src="/img/eye-hide.png" alt="Mostrar contraseña" />
                       )}
-                    </button>
+                    </span>
                   </div>
                 </div>
               </div>

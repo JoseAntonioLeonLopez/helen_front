@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { useGet } from '../../Hooks/useHooks';
 
 function User() {
   const [user, setUser] = useState(null);
+  const [username, setUsername] = useState(null);
 
-  //Sacar id del usuario mediante JWT
+  useEffect(() => {
+    // Obtener el token del localStorage
+    const token = localStorage.getItem("token");
 
-  const { data: userData } = useGet('users/' + user.idUser);
+    if (token) {
+      // Decodificar el token para obtener la información del usuario
+      const decodedToken = jwtDecode(token);
+      setUsername(decodedToken.sub); // Establecer el nombre de usuario en el estado
+    }
+  }, []);
+
+  //Sacar el usuario mediante JWT
+  const { data: userData } = useGet('users/username/' + username);
 
   useEffect(() => {
     if (userData) {
@@ -14,17 +26,20 @@ function User() {
     }
   }, [userData]);
 
+  
+  console.log(user);
+
   return (
     <div>
-      <h2>Perfil</h2>
       {user && (
         <div>
           <div>
             {/* Estilo de imagen redonda */}
             <img
-              src={user.imageUser} // Suponiendo que el objeto de usuario tiene una propiedad profileImageUrl que contiene la URL de la imagen de perfil
+              src={user.imageUser != null ? user.imageUser : "/img/user-avatar.svg"} 
               alt="Perfil"
               style={{
+                background: 'white',
                 width: '150px',
                 height: '150px',
                 borderRadius: '50%', // Forma redonda
@@ -32,10 +47,10 @@ function User() {
               }}
             />
           </div>
+          <br/><br/>
           <div>
-            <p>Nombre: {user.name}</p>
-            <p>Email: {user.email}</p>
-            
+            <p><b>Nombre:</b> {user.name}</p>
+            <p><b>Email:</b> {user.email}</p>
           </div>
         </div>
       )}

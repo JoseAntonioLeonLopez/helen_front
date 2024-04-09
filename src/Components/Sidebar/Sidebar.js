@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode'
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const location = useLocation();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Obtener el token del localStorage
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      // Decodificar el token para obtener la información del usuario
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken.sub); // Establecer el nombre de usuario en el estado
+    }
+  }, []);
 
   return (
     <nav id="sidebar">
@@ -20,7 +33,7 @@ const Sidebar = () => {
         </li>
         <li className={location.pathname === "/user" ? "active" : ""}>
           <Link to="/user">
-            <i className="fas fa-user"></i> <span>Perfil</span>
+            <i className="fas fa-user"></i> <span>Perfil: {user}</span>
           </Link>
         </li>
         <li className={location.pathname === "/users" ? "active" : ""}>
