@@ -1,8 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = () => {
+  const location = useLocation();
+
   return (
     <nav id="sidebar">
       <div className="sidebar-header">
@@ -11,27 +13,27 @@ const Sidebar = () => {
         </Link>
       </div>
       <ul className="list-unstyled components">
-        <li>
+        <li className={location.pathname === "/publications" ? "active" : ""}>
           <Link to="/publications">
             <i className="fas fa-home"></i> <span>Publicaciones</span>
           </Link>
         </li>
-        <li>
+        <li className={location.pathname === "/user" ? "active" : ""}>
           <Link to="/user">
             <i className="fas fa-user"></i> <span>Perfil</span>
           </Link>
         </li>
-        <li>
+        <li className={location.pathname === "/users" ? "active" : ""}>
           <Link to="/users">
             <i className="fas fa-users"></i> <span>Explorar</span>
           </Link>
         </li>
-        <li>
+        <li className={location.pathname === "/publications/top" ? "active" : ""}>
           <Link to="/publications/top">
             <i className="fas fa-star"></i> <span>Top Publicaciones</span>
           </Link>
         </li>
-        <li>
+        <li className={location.pathname === "/publications/add" ? "active" : ""}>
           <Link to="/publications/add">
             <i className="fas fa-add"></i> <span>Crear Publicación</span>
           </Link>

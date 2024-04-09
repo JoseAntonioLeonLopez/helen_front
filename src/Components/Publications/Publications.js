@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import './Publications.css';
 import { useGet, useDelete } from '../../Hooks/useHooks';
@@ -26,16 +26,13 @@ const Publication = () => {
   };
 
   return (
-    <div>
-      <h2>Publicaciones</h2>
-      <p>Pantalla con todas las publicaciones con scroll infinito</p>
-
-      <div className="row">
+    <div className="container">
+      <div className="row justify-content-center">
         {/* Verificar si publications es un arreglo antes de mapear sobre él */}
         {Array.isArray(publications) && publications.map((publication) => (
           <div key={publication.id} className="col-md-4 mb-4">
             <div className="card">
-              <img src={publication.image} className="imgPublication card-img-top" alt={publication.title} />
+              <img src={publication.image} className="card-img-top" alt={publication.title} />
               <div className="card-body">
                 <p className='card-text'><small className='text-muted'>{publication.city}</small></p>
                 <h5 className="card-title">{publication.title}</h5>

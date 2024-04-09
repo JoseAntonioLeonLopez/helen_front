@@ -47,6 +47,10 @@
   margin-right: 10px; /* Añadimos espacio entre el ícono y el texto */
 }
 
+#sidebar .list-unstyled.components li.active {
+  background-color: #1e1e1e; /* Cambia el color del li activo en el sidebar */
+}
+
 .logout {
   position: absolute;
   bottom: 20px;
