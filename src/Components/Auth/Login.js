@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { usePostLogin, useToken } from '../../Hooks/useHooks'; 
+import { usePostLogin } from '../../Hooks/useHooks'; 
 import Swal from 'sweetalert2';
 import './Auth.css';
 
@@ -10,7 +10,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { postData } = usePostLogin();
-  const navigate = useNavigate(); // Hook para la navegación
+  const navigate = useNavigate(); 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

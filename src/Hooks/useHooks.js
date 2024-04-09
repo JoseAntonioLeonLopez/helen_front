@@ -5,7 +5,7 @@ const api = "http://localhost:8081/helen/";
 
 // Nuevo hook personalizado que encapsula la lógica para obtener el token
 export function useAuthorizationHeader() {
-  const token = localStorage.getItem('token');;
+  const token = localStorage.getItem("token");
   return { headers: { Authorization: `Bearer ${token}` } };
 }
 
@@ -55,12 +55,38 @@ export function usePostLogin() {
     const url = api + endpoint;
     try {
       const response = await axios.post(url, formData, {
-        headers: {"Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" },
       });
       console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(`Error creating ${url}:`, error);
+      throw error;
+    }
+  };
+
+  return { postData };
+}
+
+export function usePostRegister() {
+  const postData = async (formData) => {
+    const url = "http://localhost:8081/helen/register";
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        return data;
+      } else {
+        throw new Error("Error al registrar el usuario");
+      }
+    } catch (error) {
       throw error;
     }
   };
@@ -107,9 +133,9 @@ export function useDelete(endpoint) {
 export function useLogout() {
   const logout = () => {
     // Limpiar el token de autenticación del almacenamiento local
-    localStorage.removeItem('token');
-    // Redireccionar a la página de inicio de sesión 
-    window.location.href = '/login'; 
+    localStorage.removeItem("token");
+    // Redireccionar a la página de inicio de sesión
+    window.location.href = "/login";
   };
 
   return { logout };
