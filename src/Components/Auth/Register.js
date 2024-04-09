@@ -6,15 +6,16 @@ import './Auth.css';
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [userData, setUserData] = useState({
+      username: '',
       name: '',
-      first_surname: '',
-      second_surname: '',
+      firstSurname: '',
+      secondSurname: '',
       gender: 0, 
       email: '',
       password: '',
-      confirmPassword: '', // Nuevo estado para la confirmación de la contraseña
-      phone_number: '',
-      image_user: '', 
+      confirmPassword: '', 
+      phoneNumber: '',
+      imageUser: '', 
       city: ''
     });
   
@@ -37,7 +38,7 @@ function Register() {
       }
   
       try {
-        const response = await fetch('/api/register', {
+        const response = await fetch('http://localhost:8081/helen/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -69,6 +70,11 @@ function Register() {
         <div className="col-md-6 col-sm-12">
           <div className="register-form">
             <form onSubmit={handleSubmit}>
+            <div className="form-group">
+                <label>Nombre de usuario</label>
+                <input type="text" className="form-control" name="username" placeholder="Nombre de usuario" onChange={handleChange} required />
+              </div>
+              <br />
               <div className="form-group">
                 <label>Nombre</label>
                 <input type="text" className="form-control" name="name" placeholder="Nombre" onChange={handleChange} required />

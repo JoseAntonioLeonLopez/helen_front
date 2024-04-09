@@ -27,40 +27,60 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route
-            path="/user/*"
+            path="/users"
             element={
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <ProtectedRoute element={<User />} />
+                  <Users />
                 </Container>
               </div>
             }
           />
           <Route
-            path="/users/*"
+            path="/user"
             element={
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <ProtectedRoute element={<Users />} />
+                  <User />
                 </Container>
               </div>
             }
           />
           <Route
-            path="/publications/*"
+            path="/publications"
             element={
               <div className="d-flex">
                 <Sidebar />
                 <Container fluid className="content">
-                  <ProtectedRoute element={<Publications />} />
+                  <Publications />
                 </Container>
               </div>
             }
           />
-          <Route path="/add" element={<AddPublications />} />
-          <Route path="/top" element={<TopPublications />} />
+          <Route
+            path="/publications/add"
+            element={
+              <div className="d-flex">
+                <Sidebar />
+                <Container fluid className="content">
+                  <AddPublications />
+                </Container>
+              </div>
+            }
+          />
+          <Route
+            path="/publications/top"
+            element={
+              <div className="d-flex">
+                <Sidebar />
+                <Container fluid className="content">
+                  <TopPublications />
+                </Container>
+              </div>
+            }
+          />
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </div>

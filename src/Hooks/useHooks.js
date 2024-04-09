@@ -3,21 +3,9 @@ import axios from "axios";
 
 const api = "http://localhost:8081/helen/";
 
-export function useToken() {
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    // Obtener el token del almacenamiento local al cargar el componente
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-  }, []);
-
-  return token;
-}
-
 // Nuevo hook personalizado que encapsula la lógica para obtener el token
 export function useAuthorizationHeader() {
-  const token = useToken();
+  const token = localStorage.getItem('token');;
   return { headers: { Authorization: `Bearer ${token}` } };
 }
 

@@ -4,7 +4,7 @@ import { useToken } from "../../Hooks/useHooks";
 import Swal from "sweetalert2";
 
 const ProtectedRoute = ({ element, ...rest }) => {
-  const token = useToken();
+  const token = localStorage.getItem('token');
 
   if (!token) {
     Swal.fire({

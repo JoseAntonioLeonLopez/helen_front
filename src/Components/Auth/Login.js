@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { usePostLogin } from '../../Hooks/useHooks'; 
+import { usePostLogin, useToken } from '../../Hooks/useHooks'; 
 import Swal from 'sweetalert2';
 import './Auth.css';
 
@@ -20,7 +20,6 @@ function Login() {
     event.preventDefault();
     try {
       const response = await postData('login', { username, password }); 
-      console.log("token"+response.token);
       if (response.token) {
         localStorage.setItem('token', response.token);
         // Redirigir al usuario a la página protegida después de un inicio de sesión exitoso
