@@ -64,7 +64,7 @@ function Register() {
           <h2>
             <img src="/img/helen-letras.gif" alt="logo"></img>
             <br />
-            Comparte experiencias!!
+            ¡Comparte experiencias!
           </h2>
           <p>Entra o regístrate para empezar la aventura.</p>
         </div>
@@ -212,10 +212,13 @@ function Register() {
                 Registrarse
               </Button>
               <div className="registerLogin-link">
-                <h4>¿Ya tienes cuenta?</h4>
+                <p>¿Ya tienes cuenta?</p>
                 <Link to="/" className="btn btn-secondary">
                   Entrar
                 </Link>
+                <br/>
+                <br/>
+                <br/>
               </div>
             </form>
           </div>

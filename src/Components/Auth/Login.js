@@ -45,7 +45,7 @@ function Login() {
     <div>
       <div className="sidenav">
         <div className="login-main-text">
-          <h2><img src='/img/helen-letras.gif' alt="logo"></img><br />Comparte experiencias!!</h2>
+          <h2><img src='/img/helen-letras.gif' alt="logo"></img><br />¡Comparte experiencias!</h2>
           <p>Entra o regístrate para empezar la aventura.</p>
         </div>
       </div>
@@ -76,7 +76,7 @@ function Login() {
               <br />
               <Button type="submit" className="btn btn-black">Entrar</Button>
               <div className="registerLogin-link">
-                <h4>¿No tienes cuenta?</h4>
+                <p>¿No tienes cuenta?</p>
                 <Link to="/register" className="btn btn-secondary">Registrarse</Link>
               </div>
             </form>
