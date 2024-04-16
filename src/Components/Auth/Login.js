@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { usePostLogin } from '../../Hooks/useHooks'; 
+import { API_URL } from "../../Service/constants";
 import Swal from 'sweetalert2';
 import './Auth.css';
 
@@ -9,7 +9,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { postData } = usePostLogin();
   const navigate = useNavigate(); 
 
   const togglePasswordVisibility = () => {
@@ -19,7 +18,14 @@ function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await postData('login', { username, password }); 
+      const response = await fetch(API_URL + '/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      }).then(response => response.json());
+      
       if (response.token) {
         localStorage.setItem('token', response.token);
         // Redirigir al usuario a la página protegida después de un inicio de sesión exitoso

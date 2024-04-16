@@ -26,61 +26,65 @@ function App() {
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/users"
-            element={
-              <div className="d-flex">
-                <Sidebar />
-                <Container fluid className="content">
-                  <Users />
-                </Container>
-              </div>
-            }
-          />
-          <Route
-            path="/user"
-            element={
-              <div className="d-flex">
-                <Sidebar />
-                <Container fluid className="content">
-                  <User />
-                </Container>
-              </div>
-            }
-          />
-          <Route
-            path="/publications"
-            element={
-              <div className="d-flex">
-                <Sidebar />
-                <Container fluid className="content">
-                  <Publications />
-                </Container>
-              </div>
-            }
-          />
-          <Route
-            path="/publications/add"
-            element={
-              <div className="d-flex">
-                <Sidebar />
-                <Container fluid className="content">
-                  <AddPublications />
-                </Container>
-              </div>
-            }
-          />
-          <Route
-            path="/publications/top"
-            element={
-              <div className="d-flex">
-                <Sidebar />
-                <Container fluid className="content">
-                  <TopPublications />
-                </Container>
-              </div>
-            }
-          />
+
+          {/*Rutas protegidas*/}
+          <Route element={<ProtectedRoute/>}>
+            <Route
+              path="/users"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <Users />
+                  </Container>
+                </div>
+              }
+            />
+            <Route
+              path="/user"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <User />
+                  </Container>
+                </div>
+              }
+            />
+            <Route
+              path="/publications"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <Publications />
+                  </Container>
+                </div>
+              }
+            />
+            <Route
+              path="/publications/add"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <AddPublications />
+                  </Container>
+                </div>
+              }
+            />
+            <Route
+              path="/publications/top"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <TopPublications />
+                  </Container>
+                </div>
+              }
+            />
+          </Route>
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </div>

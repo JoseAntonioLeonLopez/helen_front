@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { usePostRegister } from "../../Hooks/useHooks";
 import Swal from "sweetalert2";
+import axios from "axios"; // Importar axios para realizar la solicitud de registro
+import { API_URL } from "../../Service/constants"; // Importar la constante API_URL
 import "./Auth.css";
 
 function Register() {
@@ -21,7 +22,6 @@ function Register() {
     imageUser: null,
     city: null,
   });
-  const { postData } = usePostRegister();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -44,7 +44,10 @@ function Register() {
     }
 
     try {
-      const response = await postData(userData);
+      const response = await axios.post(API_URL + "/register", userData); // Realizar la solicitud de registro utilizando axios y la constante API_URL
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token); // Guardar el token en el almacenamiento local
+      }
       // Redireccionar a la página de publicaciones después de registrar al usuario
       navigate("/publications");
     } catch (error) {
@@ -215,9 +218,9 @@ function Register() {
                 <Link to="/" className="btn btn-secondary">
                   Entrar
                 </Link>
-                <br/>
-                <br/>
-                <br/>
+                <br />
+                <br />
+                <br />
               </div>
             </form>
           </div>

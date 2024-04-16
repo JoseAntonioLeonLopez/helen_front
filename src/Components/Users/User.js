@@ -1,17 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useUserFromToken } from '../../Hooks/useHooks';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+import { API_URL } from '../../Service/constants';
 
 function User() {
-  const user = useUserFromToken();
+  const [userFromToken, setUserFromToken] = useState(null);
+
+  useEffect(() => {
+    const fetchUserFromToken = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(token); // Decodificar el token
+          const username = decodedToken.sub; // Obtener el nombre de usuario del token
+          console.log(username);
+          const response = await axios.get(`${API_URL}/users/username/${username}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUserFromToken(response.data);
+        } catch (error) {
+          console.error('Error fetching user from token:', error);
+        }
+      }
+    };
+
+    fetchUserFromToken();
+  }, []);
 
   return (
     <div>
-      {user && (
+      {userFromToken && (
         <div>
           <div>
             {/* Estilo de imagen redonda */}
             <img
-              src={user.imageUser != null ? user.imageUser : "/img/user-avatar.svg"} 
+              src={userFromToken.imageUser != null ? userFromToken.imageUser : "/img/user-avatar.svg"} 
               alt="Perfil"
               style={{
                 background: 'white',
@@ -24,9 +50,9 @@ function User() {
           </div>
           <br/><br/>
           <div>
-            <p><b>Nombre:</b> {user.name}</p>
-            <p><b>Email:</b> {user.email}</p>
-            <p><b>Ciudad:</b> {user.city}</p>
+            <p><b>Nombre:</b> {userFromToken.name}</p>
+            <p><b>Email:</b> {userFromToken.email}</p>
+            <p><b>Ciudad:</b> {userFromToken.city}</p>
           </div>
         </div>
       )}

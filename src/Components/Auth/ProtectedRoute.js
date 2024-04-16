@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
-import { useToken } from "../../Hooks/useHooks";
+import { Navigate, Outlet } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ProtectedRoute = ({ element, ...rest }) => {
@@ -13,10 +12,10 @@ const ProtectedRoute = ({ element, ...rest }) => {
       text: 'Debes iniciar sesión para acceder a esta página',
     });
     
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace/>;
   }
 
-  return <Route {...rest} element={element} />;
+  return <Outlet/>;
 };
 
 export default ProtectedRoute;

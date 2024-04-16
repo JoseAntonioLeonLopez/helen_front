@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "react-bootstrap";
-import { usePostPublication, useUserFromToken } from "../../Hooks/useHooks";
+import axios from "axios";
+import { jwtDecode } from 'jwt-decode';
+
+import { API_URL } from "../../Service/constants";
 
 function AddPublications() {
-  const { postData } = usePostPublication();
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("");
   const [loading, setLoading] = useState(false);
-  const user = useUserFromToken();
+  const [userFromToken, setUserFromToken] = useState(null);
+  const [userLoading, setUserLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchUserFromToken = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const decodedToken = jwtDecode(token); // Decodificar el token
+          const username = decodedToken.sub; // Obtener el nombre de usuario del token
+          console.log(username);
+          const response = await axios.get(`${API_URL}/users/username/${username}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUserFromToken(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching user from token:", error);
+      } finally {
+        setUserLoading(false);
+      }
+    };
+
+    fetchUserFromToken();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,10 +51,20 @@ function AddPublications() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("city", city);
-    formData.append("fkUser", user.idUser);
+    formData.append("fkUser", userFromToken.idUser); // Set user ID for the publication
 
     try {
-      await postData("publications", formData);
+      const token = localStorage.getItem("token");
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      await axios.post(`${API_URL}/publications`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       // Mostrar tostada de éxito
       toast.success("Publicación subida exitosamente", {
@@ -52,6 +89,11 @@ function AddPublications() {
       setLoading(false);
     }
   };
+
+  // Mostrar un spinner mientras se carga el usuario
+  if (userLoading) {
+    return <Spinner animation="border" variant="light" />;
+  }
 
   return (
     <div className="max-w-md mx-auto mt-5">
