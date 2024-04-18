@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { API_URL } from "../../Service/constants";
+import { API_URL } from "../../Constants/Constants";
 import Swal from 'sweetalert2';
 import './Auth.css';
 

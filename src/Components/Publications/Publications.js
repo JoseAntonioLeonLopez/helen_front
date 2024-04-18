@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { API_URL } from '../../Service/constants';
+import { API_URL } from "../../Constants/Constants";
 import './Publications.css';
 
 const Publication = () => {

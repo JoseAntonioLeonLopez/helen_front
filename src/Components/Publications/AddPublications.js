@@ -4,8 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Spinner } from "react-bootstrap";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
-
-import { API_URL } from "../../Service/constants";
+import { API_URL } from "../../Constants/Constants";
 
 function AddPublications() {
   const [file, setFile] = useState(null);

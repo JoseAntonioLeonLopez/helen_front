@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios"; // Importar axios para realizar la solicitud de registro
-import { API_URL } from "../../Service/constants"; // Importar la constante API_URL
+import axios from "axios"; 
+import { API_URL } from "../../Constants/Constants";
 import "./Auth.css";
 
 function Register() {
