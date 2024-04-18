@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios"; 
+import axios from "axios";
 import { API_URL } from "../../Constants/Constants";
 import "./Auth.css";
 
@@ -19,7 +19,7 @@ function Register() {
     password: null,
     confirmPassword: null,
     phoneNumber: null,
-    imageUser: null,
+    imageFile: null,
     city: null,
   });
 
@@ -32,23 +32,47 @@ function Register() {
     setUserData({ ...userData, [name]: value });
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setUserData({ ...userData, imageFile: file });
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     // Comparar contraseña y confirmación de contraseña
     if (userData.password !== userData.confirmPassword) {
-      console.error(
-        "La contraseña y la confirmación de la contraseña no coinciden"
-      );
+      console.error("La contraseña y la confirmación de la contraseña no coinciden");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "La contraseñas no coinciden",
+      });
       return;
     }
-
+  
     try {
-      const response = await axios.post(API_URL + "/register", userData); // Realizar la solicitud de registro utilizando axios y la constante API_URL
+      const formData = new FormData();
+      formData.append("multipartFile", userData.imageFile);
+      formData.append("username", userData.username);
+      formData.append("name", userData.name);
+      formData.append("firstSurname", userData.firstSurname);
+      formData.append("secondSurname", userData.secondSurname);
+      formData.append("gender", userData.gender);
+      formData.append("email", userData.email);
+      formData.append("password", userData.password);
+      formData.append("phoneNumber", userData.phoneNumber);
+      formData.append("city", userData.city);
+  
+      const response = await axios.post(API_URL + "/register", formData, {
+        headers: {
+          'Content-Type': 'application/json' 
+        },
+      });
+  
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token); // Guardar el token en el almacenamiento local
+        localStorage.setItem("token", response.data.token); 
       }
-      // Redireccionar a la página de publicaciones después de registrar al usuario
       navigate("/publications");
     } catch (error) {
       console.error("Error al registrar usuario:", error.message);
@@ -58,7 +82,7 @@ function Register() {
         text: "Error al registrar el usuario",
       });
     }
-  };
+  };  
 
   return (
     <div>
@@ -209,6 +233,17 @@ function Register() {
                   required
                 />
               </div>
+              <br />
+              <div className="form-group">
+                <label>Imagen de perfil</label><br/>
+                <input
+                  type="file"
+                  className="form-control-file"
+                  name="imageFile"
+                  onChange={handleImageChange}
+                />
+              </div>
+
               <br />
               <Button type="submit" className="btn btn-black">
                 Registrarse

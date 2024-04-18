@@ -50,7 +50,7 @@ function AddPublications() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("city", city);
-    formData.append("fkUser", userFromToken.idUser); // Set user ID for the publication
+    formData.append("fkUser", userFromToken.idUser);
 
     try {
       const token = localStorage.getItem("token");
