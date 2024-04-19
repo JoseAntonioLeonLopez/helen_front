@@ -12,7 +12,7 @@ const ProtectedRoute = ({ element, ...rest }) => {
       text: 'Debes iniciar sesión para acceder a esta página',
     });
     
-    return <Navigate to="/" replace/>;
+    return <Navigate to="/login" replace/>;
   }
 
   return <Outlet/>;

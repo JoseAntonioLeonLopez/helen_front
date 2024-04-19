@@ -21,13 +21,13 @@ const Sidebar = () => {
   return (
     <nav id="sidebar">
       <div className="sidebar-header">
-        <Link to="/publications">
+        <Link to="/">
           <img className="logo-letras" src="/img/helen-letras.gif" alt="Helen Logo" />
         </Link>
       </div>
       <ul className="list-unstyled components">
-        <li className={location.pathname === "/publications" ? "active" : ""}>
-          <Link to="/publications">
+        <li className={location.pathname === "/" ? "active" : ""}>
+          <Link to="/">
             <i className="fas fa-home"></i> <span>Publicaciones</span>
           </Link>
         </li>
@@ -41,13 +41,13 @@ const Sidebar = () => {
             <i className="fas fa-users"></i> <span>Explorar</span>
           </Link>
         </li>
-        <li className={location.pathname === "/publications/top" ? "active" : ""}>
-          <Link to="/publications/top">
+        <li className={location.pathname === "/top" ? "active" : ""}>
+          <Link to="/top">
             <i className="fas fa-star"></i> <span>Top Publicaciones</span>
           </Link>
         </li>
-        <li className={location.pathname === "/publications/add" ? "active" : ""}>
-          <Link to="/publications/add">
+        <li className={location.pathname === "/add" ? "active" : ""}>
+          <Link to="/add">
             <i className="fas fa-add"></i> <span>Crear Publicación</span>
           </Link>
         </li>

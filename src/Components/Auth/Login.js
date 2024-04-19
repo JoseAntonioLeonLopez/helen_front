@@ -29,7 +29,7 @@ function Login() {
       if (response.token) {
         localStorage.setItem('token', response.token);
         // Redirigir al usuario a la página protegida después de un inicio de sesión exitoso
-        navigate('/publications');
+        navigate('/');
       } else {
         Swal.fire({
           icon: 'error',

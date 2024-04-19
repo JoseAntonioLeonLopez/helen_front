@@ -24,7 +24,7 @@ function App() {
         <ToastContainer />
         <Routes>
           <Route path="*" element={<NotFound />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
           {/*Rutas protegidas*/}
@@ -52,7 +52,7 @@ function App() {
               }
             />
             <Route
-              path="/publications"
+              path="/"
               element={
                 <div className="d-flex">
                   <Sidebar />
@@ -63,7 +63,7 @@ function App() {
               }
             />
             <Route
-              path="/publications/add"
+              path="/add"
               element={
                 <div className="d-flex">
                   <Sidebar />
@@ -74,7 +74,7 @@ function App() {
               }
             />
             <Route
-              path="/publications/top"
+              path="/top"
               element={
                 <div className="d-flex">
                   <Sidebar />

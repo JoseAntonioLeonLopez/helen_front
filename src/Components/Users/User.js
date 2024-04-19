@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import Swal from "sweetalert2";
 import './User.css';
 
 function User() {
@@ -36,10 +41,57 @@ function User() {
     fetchUserData();
   }, []);
 
-  const handleDelete = (publicationId) => {
-    // Función para eliminar una publicación
-    console.log(`Eliminar publicación con ID: ${publicationId}`);
-  };
+  const handleDelete = async (publicationId) => {
+    confirmAlert({
+      title: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar esta publicación?',
+      buttons: [
+        {
+          label: 'Sí',
+          onClick: async () => {
+            try {
+              const token = localStorage.getItem("token");
+              const response = await axios.delete(
+                `${API_URL}/publications/${publicationId}`,
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+              
+              if (response.status === 200) {
+                setUser((prevUser) => ({
+                  ...prevUser,
+                  usersPublications: prevUser.usersPublications.filter(
+                    (publication) => publication.idPublication !== publicationId
+                  ),
+                }));
+              
+                // Mostrar tostada de éxito
+                toast.success("Publicación borrada exitosamente", {
+                  position: "top-right",
+                });
+              } else {
+                throw new Error("Error al eliminar la publicación");
+              }
+            } catch (error) {
+              console.error("Error deleting publication:", error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un problema al eliminar la publicación. Por favor, inténtalo de nuevo más tarde.',
+              });
+            }
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => {} // No hace nada, solo cierra la ventana modal
+        }
+      ]
+    });
+  };   
 
   return (
     <div className="mt-4 mb-4">
@@ -69,7 +121,7 @@ function User() {
               <div className="ms-3">
                 <div>
                   <p>
-                    <b>Nombre:</b> {user.name}
+                    <b>Usuario:</b> {user.username}
                   </p>
                   <p>
                     <b>Email:</b> {user.email}

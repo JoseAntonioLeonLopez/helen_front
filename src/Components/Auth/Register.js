@@ -73,7 +73,7 @@ function Register() {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token); 
       }
-      navigate("/publications");
+      navigate("/");
     } catch (error) {
       console.error("Error al registrar usuario:", error.message);
       Swal.fire({
@@ -250,7 +250,7 @@ function Register() {
               </Button>
               <div className="registerLogin-link">
                 <p>¿Ya tienes cuenta?</p>
-                <Link to="/" className="btn btn-secondary">
+                <Link to="/login" className="btn btn-secondary">
                   Entrar
                 </Link>
                 <br />

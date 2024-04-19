@@ -72,7 +72,7 @@ function AddPublications() {
 
       // Redireccionar a la página de publicaciones después de un breve retraso
       setTimeout(() => {
-        window.location.href = "/publications";
+        window.location.href = "/";
       }, 1000);
     } catch (error) {
       console.error("Error creating publication:", error);

@@ -4,47 +4,42 @@ import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
 
 const Users = () => {
-  const [userJWT, setUser] = useState(null);
+  const [userJWT, setUserJWT] = useState(null);
   const [users, setUsers] = useState([]);
   const token = localStorage.getItem("token");
   
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const decodedToken = jwtDecode(token);
-        const username = decodedToken.sub;
-        const responseUser = await axios.get(
-          `${API_URL}/users/username/${username}`,
-          {
+        if (token && !userJWT) {
+          const decodedToken = jwtDecode(token);
+          const username = decodedToken.sub;
+
+          const responseUser = await axios.get(
+            `${API_URL}/users/username/${username}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          setUserJWT(responseUser.data);
+
+          const responseUsers = await axios.get(`${API_URL}/users`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
-        );
-        setUser(responseUser.data);
+          });
+          const filteredData = responseUsers.data.filter(user => user.role.role !== 'ADMIN' && user.username !== username);
+          setUsers(filteredData);
+        }
       } catch (error) {
-        console.error("Error fetching user:", error);
-      }
-    };
-    
-    const fetchUsers = async () => {
-      try {
-        const responseUsers = await axios.get(`${API_URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const filteredData = responseUsers.data.filter(user => user.role.role !== 'ADMIN' && user.username !== (userJWT?.username ?? null));
-        setUsers(filteredData);
-      } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    if (token) { 
-      fetchUser();
-      fetchUsers();
-    }
+    fetchData();
   }, [token, userJWT]);
 
   return (
