@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { API_URL } from "../../Constants/Constants";
-import './Publications.css';
 
 const Publication = () => {
   const [publications, setPublications] = useState([]);
@@ -64,67 +63,85 @@ const Publication = () => {
   }, [publications]);
 
   const renderPublicationCards = () => {
-    return publications.map((publication, index) => (
-      <div key={publication.idPublication} className="col-md-4 mb-4">
-        <div className="card">
-          <img src={publication.image} className="card-img-top" alt={publication.title} />
-          <div className="card-body">
-            <p className='card-text'><small className='text-muted'>{publication.city}</small></p>
-            <h5 className="card-title">{publication.title}</h5>
-            <p className="card-text">{publication.description}</p>
-            {loaded && users[index] && (
-              <>
-                <div className="card-text">
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    {users[index].imageUser ? (
-                      <img
-                        src={users[index].imageUser}
-                        alt="Imagen de perfil"
-                        style={{
-                          background: 'white',
-                          width: '150px',
-                          height: '150px',
-                          borderRadius: '50%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    ) : (
-                      <img
-                        src="/img/user-avatar.svg"
-                        alt="Imagen de perfil predeterminada"
-                        style={{
-                          background: 'white',
-                          width: '30px',
-                          height: '30px',
-                          borderRadius: '50%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    )}
-                    <span style={{ marginLeft: '10px' }}>{users[index].username}</span>
+    const rows = [];
+    let currentRow = [];
+
+    for (let i = 0; i < publications.length; i++) {
+      const publication = publications[i];
+      const user = users[i];
+      currentRow.push(
+        <div key={publication.idPublication} className="col-md-4 mb-4">
+          <div className="card">
+            <img src={publication.image} className="card-img-top" alt={publication.title} style={{ maxHeight: '300px', objectFit: 'cover', cursor: 'pointer' }} />
+            <div className="card-body">
+              <p className='card-text'><small className='text-muted'>{publication.city}</small></p>
+              <h5 className="card-title">{publication.title}</h5>
+              <p className="card-text">{publication.description}</p>
+              {loaded && user && (
+                <>
+                  <div className="card-text">
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      {user.imageUser ? (
+                        <img
+                          src={user.imageUser}
+                          alt="Imagen de perfil"
+                          style={{
+                            background: 'white',
+                            width: '100px',
+                            height: '100px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      ) : (
+                        <img
+                          src="/img/user-avatar.svg"
+                          alt="Imagen de perfil predeterminada"
+                          style={{
+                            background: 'white',
+                            width: '30px',
+                            height: '30px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      )}
+                      <span style={{ marginLeft: '10px' }}>{user.username}</span>
+                    </div>
                   </div>
-                </div>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    ));
+      );
+
+      // Agregar la fila actual al conjunto de filas cuando alcanza un tamaño de 3 o cuando sea la última publicación
+      if (currentRow.length === 3 || i === publications.length - 1) {
+        rows.push(
+          <div key={`row-${rows.length}`} className="row justify-content-start">
+            {currentRow}
+          </div>
+        );
+        currentRow = [];
+      }
+    }
+
+    return rows;
   };
 
   return (
     <div className="container">
-      <div className="row justify-content-center">
-        {/* Verificar si las publicaciones se han cargado y si hay publicaciones */}
-        {loaded && publications.length > 0 ? (
-          renderPublicationCards()
-        ) : (
-          // Mostrar mensaje si no hay publicaciones o si no se han cargado
+      {loaded ? (
+        renderPublicationCards()
+      ) : (
+        // Mostrar mensaje si no se han cargado las publicaciones
+        <div className="row justify-content-center">
           <div className="col-md-12 text-center">
-            <p>{loaded ? 'No hay publicaciones disponibles' : 'Cargando publicaciones...'}</p>
+            <p>Cargando publicaciones...</p>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

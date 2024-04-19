@@ -146,6 +146,7 @@ function User() {
                         src={publication.image}
                         className="card-img-top"
                         alt={publication.title}
+                        style={{ maxHeight: '300px', objectFit: 'cover', cursor: 'pointer' }}
                       />
                       <div className="card-body">
                         <p className="card-text">
