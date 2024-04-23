@@ -22,7 +22,6 @@ function AddPublications() {
         if (token) {
           const decodedToken = jwtDecode(token); // Decodificar el token
           const username = decodedToken.sub; // Obtener el nombre de usuario del token
-          console.log(username);
           const response = await axios.get(`${API_URL}/users/username/${username}`, {
             headers: {
               Authorization: `Bearer ${token}`,
