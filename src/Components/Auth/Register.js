@@ -233,7 +233,7 @@ function Register() {
                   required
                 />
               </div>
-              <br />
+              {/*<br />
               <div className="form-group">
                 <label>Imagen de perfil</label><br/>
                 <input
@@ -242,7 +242,7 @@ function Register() {
                   name="imageFile"
                   onChange={handleImageChange}
                 />
-              </div>
+                    </div>*/}
 
               <br />
               <Button type="submit" className="btn btn-black">
