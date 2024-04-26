@@ -19,7 +19,7 @@ function Register() {
     password: null,
     confirmPassword: null,
     phoneNumber: null,
-    imageFile: null,
+    //imageFile: null,
     city: null,
   });
 
@@ -32,10 +32,10 @@ function Register() {
     setUserData({ ...userData, [name]: value });
   };
 
-  const handleImageChange = (event) => {
+  /*const handleImageChange = (event) => {
     const file = event.target.files[0];
     setUserData({ ...userData, imageFile: file });
-  };
+  };*/
   
   const handleSubmit = async (event) => {
     event.preventDefault();
