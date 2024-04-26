@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
 import { toast } from "react-toastify";
@@ -12,6 +14,7 @@ import './User.css';
 function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [likes, setLikes] = useState({}); // Nuevo estado para almacenar los likes de las publicaciones
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -31,6 +34,13 @@ function User() {
           );
           setUser(response.data);
           setLoading(false);
+
+          // Actualizar los likes de las publicaciones
+          const likesMap = response.data.usersPublications.reduce((acc, publication) => {
+            acc[publication.idPublication] = publication.favorites.length;
+            return acc;
+          }, {});
+          setLikes(likesMap);
         } catch (error) {
           console.error("Error fetching user data:", error);
           setLoading(false);
@@ -156,14 +166,25 @@ function User() {
                         </p>
                         <h5 className="card-title">{publication.title}</h5>
                         <p className="card-text">{publication.description}</p>
-                        <button
-                          onClick={() =>
-                            handleDelete(publication.idPublication)
-                          }
-                          className="btn btn-danger"
-                        >
-                          Eliminar
-                        </button>
+                        {/* Mostrar el número de likes de la publicación */}
+                        <div className="mb-3">
+                            <FontAwesomeIcon
+                              icon={solidHeart}
+                              className="mr-1"
+                            />
+                            {likes[publication.idPublication]}
+                          </div>
+                        <div className="align-items-center">
+                          <button
+                            onClick={() =>
+                              handleDelete(publication.idPublication)
+                            }
+                            className="btn btn-danger"
+                          >
+                            Eliminar
+                          </button>
+                          
+                        </div>
                       </div>
                     </div>
                   </div>
