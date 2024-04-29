@@ -15,7 +15,7 @@ import NotFound from "./Pages/404/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import ProtectedRoute from "./Pages/Auth/ProtectedRoute";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
 function App() {
   return (
