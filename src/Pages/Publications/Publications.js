@@ -3,9 +3,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 import { API_URL } from "../../Constants/Constants";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import PublicationCard from "../../Components/Publications/PublicationCard";
 
 const Publication = ({ idUser }) => {
   const [publications, setPublications] = useState([]);
@@ -141,6 +139,7 @@ const Publication = ({ idUser }) => {
       const updatedLikes = { ...likes };
       updatedLikes[publicationId] = liked ? updatedLikes[publicationId] - 1 : updatedLikes[publicationId] + 1;
       setLikes(updatedLikes);
+      
   
       // Alternar entre dar y quitar like
       setUserLikes((prevUserLikes) => ({
@@ -158,85 +157,32 @@ const Publication = ({ idUser }) => {
   };  
 
   const renderPublicationCards = () => {
-    return publications.map((publication, index) => (
-      <div key={publication.idPublication} className="col-md-4 mb-4">
-        <div className="card" style={{ marginBottom: "0" }}>
-          {users[index] && (
-            <div
-              className="card-header"
-              style={{
-                marginBottom: "0",
-                display: "flex",
-                alignItems: "center"
-              }}
-            >
-              {users[index].imageUser ? (
-                <img
-                  src={users[index].imageUser}
-                  alt="Imagen de perfil"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    marginRight: "10px",
-                  }}
-                />
-              ) : (
-                <img
-                  src="/img/user-avatar.svg"
-                  alt="Imagen de perfil predeterminada"
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    marginRight: "10px",
-                  }}
-                />
-              )}
-              <span>{users[index].username}</span>
-            </div>
-          )}
-          <img
-            src={publication.image}
-            className="card-img-top"
-            alt={publication.title}
-            style={{
-              maxHeight: "300px",
-              objectFit: "cover",
-              cursor: "pointer",
-            }}
+    // Ordenar las publicaciones por idPublication de manera descendente
+    const sortedPublications = publications.sort((a, b) => b.idPublication - a.idPublication);
+    const rows = [];
+    for (let i = 0; i < sortedPublications.length; i += 3) {
+      const rowItems = [];
+      for (let j = i; j < i + 3 && j < sortedPublications.length; j++) {
+        rowItems.push(
+          <PublicationCard
+            key={sortedPublications[j].idPublication}
+            publication={sortedPublications[j]}
+            user={users[j]}
+            liked={userLikes[sortedPublications[j].idPublication]}
+            likes={likes[sortedPublications[j].idPublication]}
+            onLikeClick={() => handleLikeClick(sortedPublications[j].idPublication)}
           />
-          <div className="card-body">
-            <p className="card-text">
-              <small className="text-muted">{publication.city}</small>
-            </p>
-            <h5 className="card-title">{publication.title}</h5>
-            <p className="card-text">{publication.description}</p>
-            {/* Renderizar botón de like con el número de likes */}
-            {userLikes[publication.idPublication] !== undefined && (
-              <button
-                onClick={() => handleLikeClick(publication.idPublication)}
-                style={{
-                  color: userLikes[publication.idPublication] ? "red" : "black",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={
-                    userLikes[publication.idPublication]
-                      ? solidHeart
-                      : regularHeart
-                  }
-                />
-                <b className="pl-2">{likes[publication.idPublication]}</b> 
-              </button>
-            )}
-          </div>
+        );
+      }
+      rows.push(
+        <div className="row" key={i}>
+          {rowItems}
         </div>
-      </div>
-    ));
+      );
+    }
+    return rows;
   };
+  
 
   return (
     <div className="container">
@@ -246,6 +192,15 @@ const Publication = ({ idUser }) => {
         <div className="row justify-content-center">
           <div className="col-md-12 text-center">
             <p>Cargando publicaciones...</p>
+          </div>
+        </div>
+      )}
+      {publications.length !== 0 ? (
+        <div></div>
+      ) : (
+        <div className="row justify-content-center">
+          <div className="col-md-12 text-center">
+            <p>No hay publicaciones disponibles</p>
           </div>
         </div>
       )}

@@ -3,19 +3,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import Sidebar from "./Components/Sidebar/Sidebar";
-import Users from "./Components/Users/Users";
-import User from "./Components/Users/User";
-import Login from "./Components/Auth/Login";
-import Register from "./Components/Auth/Register";
-import Logout from "./Components/Auth/Logout";
-import TopPublications from "./Components/Publications/TopPublications";
-import AddPublications from "./Components/Publications/AddPublications";
-import Publications from "./Components/Publications/Publications";
-import NotFound from "./Components/NotFound/NotFound";
+import Users from "./Pages/Users/Users";
+import User from "./Pages/Users/User";
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
+import Logout from "./Pages/Auth/Logout";
+import TopPublications from "./Pages/Publications/TopPublications";
+import AddPublications from "./Pages/Publications/AddPublications";
+import Publications from "./Pages/Publications/Publications";
+import NotFound from "./Pages/404/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import ProtectedRoute from "./Components/Auth/ProtectedRoute";
+import ProtectedRoute from "./Pages/Auth/ProtectedRoute";
 
 function App() {
   return (
