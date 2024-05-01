@@ -18,7 +18,7 @@ function AddPublications() {
   useEffect(() => {
     const fetchUserFromToken = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (token) {
           const decodedToken = jwtDecode(token); // Decodificar el token
           const username = decodedToken.sub; // Obtener el nombre de usuario del token
@@ -52,7 +52,7 @@ function AddPublications() {
     formData.append("fkUser", userFromToken.idUser);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       if (!token) {
         throw new Error("No token found");
       }

@@ -16,7 +16,7 @@ const Publication = ({ idUser }) => {
   useEffect(() => {
     const fetchUserFromToken = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (token) {
           const decodedToken = jwtDecode(token); // Decodificar el token
           const username = decodedToken.sub; // Obtener el nombre de usuario del token
@@ -38,7 +38,7 @@ const Publication = ({ idUser }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const response = await axios.get(`${API_URL}/publications`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ const Publication = ({ idUser }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         const userPromises = publications.map(async (publication) => {
           const response = await axios.get(
             `${API_URL}/users/${publication.fkUser}`,
@@ -112,7 +112,7 @@ const Publication = ({ idUser }) => {
 
   const handleLikeClick = async (publicationId) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const liked = userLikes[publicationId];
   
       if (liked) {

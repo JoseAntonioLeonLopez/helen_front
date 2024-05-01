@@ -19,7 +19,7 @@ function User() {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       if (token) {
         try {
@@ -61,7 +61,7 @@ function User() {
           label: 'Sí',
           onClick: async () => {
             try {
-              const token = localStorage.getItem("token");
+              const token = sessionStorage.getItem("token");
               const response = await axios.delete(
                 `${API_URL}/publications/${publicationId}`,
                 {

@@ -6,7 +6,7 @@ import { API_URL } from "../../Constants/Constants";
 const Users = () => {
   const [userJWT, setUserJWT] = useState(null);
   const [users, setUsers] = useState([]);
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
 
   useEffect(() => {
     const fetchData = async () => {

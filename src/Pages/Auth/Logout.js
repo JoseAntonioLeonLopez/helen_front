@@ -3,8 +3,8 @@ import './Logout.css';
 
 function Logout() {
   useEffect(() => {
-    // Limpiar el token de autenticación del almacenamiento local
-    localStorage.removeItem('token');
+    // Limpiar el token de autenticación del sessionStorage
+    sessionStorage.removeItem('token');
     
     // Redirigir a la página de inicio después de cerrar sesión
     window.location.href = '/login';

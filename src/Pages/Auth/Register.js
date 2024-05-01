@@ -71,7 +71,7 @@ function Register() {
       });
   
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token); 
+        sessionStorage.setItem("token", response.data.token); 
       }
       navigate("/");
     } catch (error) {

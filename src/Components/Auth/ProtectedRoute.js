@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const ProtectedRoute = ({ element, ...rest }) => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   if (!token) {
     Swal.fire({

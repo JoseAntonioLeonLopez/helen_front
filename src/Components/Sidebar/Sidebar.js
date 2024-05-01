@@ -8,8 +8,8 @@ const Sidebar = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Obtener el token del localStorage
-    const token = localStorage.getItem("token");
+    // Obtener el token del sessionStorage
+    const token = sessionStorage.getItem("token");
 
     if (token) {
       // Decodificar el token para obtener la información del usuario

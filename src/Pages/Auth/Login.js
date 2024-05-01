@@ -27,7 +27,7 @@ function Login() {
       }).then(response => response.json());
       
       if (response.token) {
-        localStorage.setItem('token', response.token);
+        sessionStorage.setItem('token', response.token);
         // Redirigir al usuario a la página protegida después de un inicio de sesión exitoso
         navigate('/');
       } else {
