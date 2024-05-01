@@ -153,7 +153,7 @@ function User() {
                     className="col-md-4 mb-4"
                   >
                     <div className="card">
-                    <Image src={publication.image}  alt={publication.title} width="500" preview />
+                    <Image src={publication.image}  alt={publication.title} preview />
                       <div className="card-body">
                         <p className="card-text">
                           <small className="text-muted">

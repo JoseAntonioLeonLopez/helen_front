@@ -9,7 +9,7 @@ const PublicationCard = ({ publication, user, liked, likes, onLikeClick }) => {
     <div className="col-md-4 mb-4">
       <div className="card" style={{ marginBottom: "15px" }}>
         {publication && (
-          <Image src={publication.image}  alt={publication.title} width="500" preview />
+          <Image src={publication.image}  alt={publication.title} preview />
         )}
         <div className="card-body">
           <p className="card-text">

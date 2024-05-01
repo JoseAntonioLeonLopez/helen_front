@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { API_URL } from "../../Constants/Constants";
 import PublicationCard from "../../Components/Publications/PublicationCard";
 
-const Publication = ({ idUser }) => {
+const Publication = () => {
   const [publications, setPublications] = useState([]);
   const [users, setUsers] = useState([]);
   const [likes, setLikes] = useState({});
