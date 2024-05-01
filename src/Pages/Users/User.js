@@ -10,6 +10,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import Swal from "sweetalert2";
 import './User.css';
+import { Image } from 'primereact/image';
 
 function User() {
   const [user, setUser] = useState(null);
@@ -152,12 +153,7 @@ function User() {
                     className="col-md-4 mb-4"
                   >
                     <div className="card">
-                      <img
-                        src={publication.image}
-                        className="card-img-top"
-                        alt={publication.title}
-                        style={{ maxHeight: '300px', objectFit: 'cover', cursor: 'pointer' }}
-                      />
+                    <Image src={publication.image}  alt={publication.title} width="500" preview />
                       <div className="card-body">
                         <p className="card-text">
                           <small className="text-muted">

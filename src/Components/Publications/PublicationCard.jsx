@@ -2,21 +2,14 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
+import { Image } from 'primereact/image';
 
 const PublicationCard = ({ publication, user, liked, likes, onLikeClick }) => {
   return (
     <div className="col-md-4 mb-4">
       <div className="card" style={{ marginBottom: "15px" }}>
         {publication && (
-          <img
-            src={publication.image}
-            className="card-img-top"
-            alt={publication.title}
-            style={{
-              maxHeight: "300px",
-              objectFit: "cover",
-            }}
-          />
+          <Image src={publication.image}  alt={publication.title} width="500" preview />
         )}
         <div className="card-body">
           <p className="card-text">

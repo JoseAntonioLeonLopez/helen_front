@@ -16,8 +16,11 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
+import { PrimeReactProvider } from 'primereact/api';
+
 function App() {
   return (
+    <PrimeReactProvider>
     <Router>
       <div>
         <ToastContainer />
@@ -77,6 +80,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </PrimeReactProvider>
   );
 }
 
