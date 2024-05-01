@@ -8,7 +8,6 @@ import User from "./Pages/Users/User";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
 import Logout from "./Pages/Auth/Logout";
-import TopPublications from "./Pages/Publications/TopPublications";
 import AddPublications from "./Pages/Publications/AddPublications";
 import Publications from "./Pages/Publications/Publications";
 import NotFound from "./Pages/404/NotFound";
@@ -69,17 +68,6 @@ function App() {
                   <Sidebar />
                   <Container fluid className="content">
                     <AddPublications />
-                  </Container>
-                </div>
-              }
-            />
-            <Route
-              path="/top"
-              element={
-                <div className="d-flex">
-                  <Sidebar />
-                  <Container fluid className="content">
-                    <TopPublications />
                   </Container>
                 </div>
               }

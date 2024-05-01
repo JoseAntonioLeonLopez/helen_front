@@ -41,11 +41,6 @@ const Sidebar = () => {
             <i className="fas fa-users"></i> <span>Explorar</span>
           </Link>
         </li>
-        <li className={location.pathname === "/top" ? "active" : ""}>
-          <Link to="/top">
-            <i className="fas fa-star"></i> <span>Top Publicaciones</span>
-          </Link>
-        </li>
         <li className={location.pathname === "/add" ? "active" : ""}>
           <Link to="/add">
             <i className="fas fa-add"></i> <span>Crear Publicación</span>
