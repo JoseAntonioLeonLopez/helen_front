@@ -8,7 +8,7 @@ import { Input, Select, Option } from "@material-tailwind/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./Auth.css";
 
-function Login() {
+function Auth() {
   const [showPassword, setShowPassword] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -116,7 +116,7 @@ function Login() {
                 alt="logo"
                 style={{ width: "150px", marginTop: "50px" }}
               />
-              <h2 className="pb-2" style={{ color: "#fff", fontSize: 25 }}>
+              <h2 className="pb-2 font-medium" style={{ color: "#fff", fontSize: 25 }}>
                 ¡Comparte experiencias!
               </h2>
               <div className="row mt-3">
@@ -149,7 +149,7 @@ function Login() {
 
       {/* Modal para iniciar sesión */}
       <Modal show={showLoginModal} onHide={toggleLoginModal} centered>
-        <Modal.Header closebutton>
+        <Modal.Header>
           <Modal.Title className="mx-auto">Iniciar Sesión</Modal.Title>
           {/* Usar la clase 'mx-auto' */}
         </Modal.Header>
@@ -206,7 +206,7 @@ function Login() {
         centered
         size="lg"
       >
-        <Modal.Header closebutton>
+        <Modal.Header>
           <Modal.Title className="mx-auto">Registrarse</Modal.Title>
         </Modal.Header>
         <Modal.Body className="text-center">
@@ -415,4 +415,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Auth;

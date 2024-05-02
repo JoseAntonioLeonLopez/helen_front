@@ -82,6 +82,7 @@ function User() {
                 // Mostrar tostada de éxito
                 toast.success("Publicación borrada exitosamente", {
                   position: "top-right",
+                  autoClose: 1200
                 });
               } else {
                 throw new Error("Error al eliminar la publicación");
