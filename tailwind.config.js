@@ -1,13 +1,15 @@
-const {nextui} = require('@nextui-org/theme');
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
-].js,
+      "./index.html",
+      "./src/**/*.{js,ts,jsx,tsx}",
+      "./node_modules/tw-elements-react/dist/js/**/*.js"
+  ],
   theme: {
-    extend: {},
+      extend: {},
   },
   darkMode: "class",
- plugins: [nextui()],
-}
-
+  plugins: [require("tw-elements-react/dist/plugin.cjs")]
+  });

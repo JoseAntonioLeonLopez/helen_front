@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_URL } from "../../Constants/Constants";
 import axios from "axios";
+import { Input, Select, Option } from "@material-tailwind/react";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./Auth.css";
 
 function Login() {
@@ -114,107 +116,226 @@ function Login() {
                 alt="logo"
                 style={{ width: "150px", marginTop: "50px" }}
               />
-              <h2 style={{ color: "#fff" }}>¡Comparte experiencias!</h2>
-              <button radius="sm" onClick={toggleLoginModal} className="mt-3"> Iniciar Sesión</button>
-              <button radius="sm" onClick={toggleRegisterModal} className="mt-3">Registrarse</button>
+              <h2 className="pb-2" style={{ color: "#fff", fontSize: 25 }}>
+                ¡Comparte experiencias!
+              </h2>
+              <div className="row mt-3">
+                <div className="col-md-6">
+                  <button
+                    type="button"
+                    className="d-inline-block rounded bg-neutral-50 px-7 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] text-nowrap"
+                    onClick={toggleLoginModal}
+                  >
+                    {" "}
+                    Iniciar Sesión
+                  </button>
+                </div>
+                <div className="col-md-6">
+                  <button
+                    type="button"
+                    className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                    onClick={toggleRegisterModal}
+                  >
+                    Registrarse
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Modal para iniciar sesión */}
-      <Modal show={showLoginModal} onHide={toggleLoginModal}>
+      <Modal show={showLoginModal} onHide={toggleLoginModal} centered>
         <Modal.Header closebutton>
-          <Modal.Title>Iniciar Sesión</Modal.Title>
+          <Modal.Title className="mx-auto">Iniciar Sesión</Modal.Title>
+          {/* Usar la clase 'mx-auto' */}
         </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label>Usuario</label>
-              <input type="text" className="form-control" placeholder="Usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <Modal.Body className="text-center">
+          {/* Mantener la clase 'text-center' para el contenido */}
+          <form onSubmit={handleLogin} className="d-inline-block mx-auto">
+            <div className="w-72">
+              <Input
+                type="text"
+                id="username"
+                label="Usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
             </div>
             <br />
-            <div className="form-group">
-              <label>Contraseña</label>
-              <div className="input-group">
-                <input type={showPassword ? "text" : "password"} className="form-control" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <div className="input-group-append">
-                  <button variant="outline-secondary" onClick={togglePasswordVisibility}>
-                    {showPassword ? "Ocultar" : "Mostrar"}
-                  </button>
-                </div>
+            <div className="w-72">
+              <div className="input-group ">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  label="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  icon={
+                    <i onClick={togglePasswordVisibility}>
+                      {showPassword ? (
+                        <AiOutlineEyeInvisible />
+                      ) : (
+                        <AiOutlineEye />
+                      )}
+                    </i>
+                  }
+                />
               </div>
             </div>
             <br />
-            <button type="submit" className="btn btn-black">Entrar</button>
+            <button
+              type="submit"
+              className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+            >
+              Entrar
+            </button>
           </form>
         </Modal.Body>
       </Modal>
 
       {/* Modal para registrarse */}
-      <Modal show={showRegisterModal} onHide={toggleRegisterModal}>
-        <Modal.Header closebutton>
-          <Modal.Title>Registrarse</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form onSubmit={handleRegister}>
-            <div className="form-group">
-              <label>Nombre de usuario</label>
-              <input type="text" className="form-control" name="username" placeholder="Nombre de usuario" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Nombre</label>
-              <input type="text" className="form-control" name="name" placeholder="Nombre" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Primer Apellido</label>
-              <input type="text" className="form-control" name="firstSurname" placeholder="Primer Apellido" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Segundo Apellido</label>
-              <input type="text" className="form-control" name="secondSurname" placeholder="Segundo Apellido" onChange={handleChange} />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Género</label>
-              <select className="form-control" name="gender" onChange={handleChange} required>
-                <option value="1">Masculino</option>
-                <option value="2">Femenino</option>
-              </select>
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Correo electrónico</label>
-              <input type="email" className="form-control" name="email" placeholder="Correo electrónico" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Contraseña</label>
-              <input type={showPassword ? "text" : "password"} className="form-control" name="password" placeholder="Contraseña" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Confirmar Contraseña</label>
-              <input type="password" className="form-control" name="confirmPassword" placeholder="Confirmar Contraseña" onChange={handleChange} required />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Número de teléfono</label>
-              <input type="text" className="form-control" name="phoneNumber" placeholder="Número de teléfono" onChange={handleChange} />
-            </div>
-            <br />
-            <div className="form-group">
-              <label>Ciudad</label>
-              <input type="text" className="form-control" name="city" placeholder="Ciudad" onChange={handleChange} required />
-            </div>
-            <br />
-            <button type="submit" className="btn btn-black">Registrarse</button>
-          </form>
-        </Modal.Body>
-      </Modal>
+      <Modal show={showRegisterModal} onHide={toggleRegisterModal} centered>
+  <Modal.Header closebutton>
+    <Modal.Title className="mx-auto">Registrarse</Modal.Title>
+  </Modal.Header>
+  <Modal.Body className="text-center">
+    <div className="row">
+      <div className="col-md-6">
+        <form onSubmit={handleRegister}>
+          <div className="w-72">
+            <Input
+              type="text"
+              id="username"
+              label="Usuario"
+              value={userData.username}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="text"
+              id="name"
+              label="Nombre"
+              value={userData.name}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="text"
+              id="firstSurname"
+              label="Primer Apellido"
+              value={userData.firstSurname}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="text"
+              id="secondSurname"
+              label="Segundo Apellido"
+              value={userData.secondSurname}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="email"
+              id="email"
+              label="Correo electrónico"
+              value={userData.email}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+        </form>
+      </div>
+      <div className="col-md-6">
+        <form onSubmit={handleRegister}>
+        <div className="form-group">
+        <Select
+              label="Género"
+              name="gender"
+              onChange={handleChange}
+              required
+            >
+              <Option value="1">Masculino</Option>
+              <Option value="2">Femenino</Option>
+            </Select>
+          </div>
+          <br/>
+          <div className="w-72">
+            <Input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              label="Contraseña"
+              value={userData.password}
+              onChange={(e) => handleChange(e)}
+              required
+              icon={
+                <i onClick={togglePasswordVisibility}>
+                  {showPassword ? (
+                    <AiOutlineEyeInvisible />
+                  ) : (
+                    <AiOutlineEye />
+                  )}
+                </i>
+              }
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              label="Confirmar Contraseña"
+              value={userData.confirmPassword}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="text"
+              id="phoneNumber"
+              label="Número de teléfono"
+              value={userData.phoneNumber}
+              onChange={(e) => handleChange(e)}
+            />
+          </div>
+          <br />
+          <div className="w-72">
+            <Input
+              type="text"
+              id="city"
+              label="Ciudad"
+              value={userData.city}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
+          <br />
+          <button type="submit" className="btn btn-black">
+            Registrarse
+          </button>
+        </form>
+      </div>
+    </div>
+  </Modal.Body>
+</Modal>
+
     </div>
   );
 }
