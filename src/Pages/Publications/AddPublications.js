@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
@@ -14,6 +15,7 @@ function AddPublications({ closeModal }) {
   const [loading, setLoading] = useState(false);
   const [userFromToken, setUserFromToken] = useState(null);
   const [userLoading, setUserLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserFromToken = async () => {
@@ -71,7 +73,7 @@ function AddPublications({ closeModal }) {
         position: "top-right",
         autoClose: 1200
       });
-      window.location.reload();
+      navigate('/');
       closeModal(); // Cierra el modal después de enviar el formulario
     } catch (error) {
       console.error("Error creating publication:", error);

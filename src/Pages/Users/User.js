@@ -6,16 +6,15 @@ import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 import Swal from "sweetalert2";
-import './User.css';
-import { Image } from 'primereact/image';
+import "./User.css";
 
 function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [likes, setLikes] = useState({}); // Nuevo estado para almacenar los likes de las publicaciones
+  const [likes, setLikes] = useState({}); 
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,11 +35,13 @@ function User() {
           setUser(response.data);
           setLoading(false);
 
-          // Actualizar los likes de las publicaciones
-          const likesMap = response.data.usersPublications.reduce((acc, publication) => {
-            acc[publication.idPublication] = publication.favorites.length;
-            return acc;
-          }, {});
+          const likesMap = response.data.usersPublications.reduce(
+            (acc, publication) => {
+              acc[publication.idPublication] = publication.favorites.length;
+              return acc;
+            },
+            {}
+          );
           setLikes(likesMap);
         } catch (error) {
           console.error("Error fetching user data:", error);
@@ -54,11 +55,11 @@ function User() {
 
   const handleDelete = async (publicationId) => {
     confirmAlert({
-      title: 'Confirmar eliminación',
-      message: '¿Estás seguro de que deseas eliminar esta publicación?',
+      title: "Confirmar eliminación",
+      message: "¿Estás seguro de que deseas eliminar esta publicación?",
       buttons: [
         {
-          label: 'Sí',
+          label: "Sí",
           onClick: async () => {
             try {
               const token = sessionStorage.getItem("token");
@@ -70,7 +71,7 @@ function User() {
                   },
                 }
               );
-              
+
               if (response.status === 200) {
                 setUser((prevUser) => ({
                   ...prevUser,
@@ -78,11 +79,10 @@ function User() {
                     (publication) => publication.idPublication !== publicationId
                   ),
                 }));
-              
-                // Mostrar tostada de éxito
+
                 toast.success("Publicación borrada exitosamente", {
                   position: "top-right",
-                  autoClose: 1200
+                  autoClose: 1200,
                 });
               } else {
                 throw new Error("Error al eliminar la publicación");
@@ -90,20 +90,20 @@ function User() {
             } catch (error) {
               console.error("Error deleting publication:", error);
               Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un problema al eliminar la publicación. Por favor, inténtalo de nuevo más tarde.',
+                icon: "error",
+                title: "Error",
+                text: "Ocurrió un problema al eliminar la publicación. Por favor, inténtalo de nuevo más tarde.",
               });
             }
-          }
+          },
         },
         {
-          label: 'No',
-          onClick: () => {} // No hace nada, solo cierra la ventana modal
-        }
-      ]
+          label: "No",
+          onClick: () => {},
+        },
+      ],
     });
-  };   
+  };
 
   return (
     <div className="mt-4 mb-4">
@@ -148,45 +148,65 @@ function User() {
           <div className="col-md-12">
             {user.usersPublications.length > 0 ? (
               <div className="row">
-                {user.usersPublications.map((publication, index) => (
-                  <div
-                    key={publication.idPublication}
-                    className="col-md-4 mb-4"
-                  >
-                    <div className="card">
-                    <Image src={publication.image}  alt={publication.title} preview />
-                      <div className="card-body">
-                        <p className="card-text">
-                          <small className="text-muted">
-                            {publication.city}
-                          </small>
-                        </p>
-                        <h5 className="card-title">{publication.title}</h5>
-                        <p className="card-text">{publication.description}</p>
-                        {/* Mostrar el número de likes de la publicación */}
-                        <div className="mb-3">
+                {user.usersPublications
+                  .sort((a, b) => b.idPublication - a.idPublication) // Ordenar las publicaciones por su ID
+                  .map((publication, index) => (
+                    <div
+                      key={publication.idPublication}
+                      className="col-md-4 mb-4"
+                    >
+                      <div className="card">
+                        <div
+                          className="publication-image-container"
+                          style={{
+                            width: "100%",
+                            height: "300px",
+                            overflow: "hidden",
+                            marginBottom: "10px",
+                          }}
+                        >
+                          <img
+                            src={publication.image}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              maxHeight: "300px",
+                            }}
+                            alt={publication.title}
+                          />
+                        </div>
+                        <div className="card-body">
+                          <p className="card-text">
+                            <small className="text-muted">
+                              {publication.city}
+                            </small>
+                          </p>
+                          <h5 className="card-title">{publication.title}</h5>
+                          <p className="card-text">
+                            {publication.description}
+                          </p>
+                          <div className="mb-3">
                             <FontAwesomeIcon
                               icon={solidHeart}
                               className="mr-1"
                             />
                             {likes[publication.idPublication]}
                           </div>
-                        <div className="align-items-center">
-                          <button
-                            onClick={() =>
-                              handleDelete(publication.idPublication)
-                            }
-                            className="btn btn-danger"
-                          >
-                            Eliminar
-                          </button>
-                          
+                          <div className="align-items-center">
+                            <button
+                              onClick={() =>
+                                handleDelete(publication.idPublication)
+                              }
+                              className="btn btn-danger"
+                            >
+                              Eliminar
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                {/* Agregar divs vacíos para mantener la estructura de filas */}
+                  ))}
                 {user.usersPublications.length % 3 === 1 && (
                   <div className="col-md-4 mb-4"></div>
                 )}
