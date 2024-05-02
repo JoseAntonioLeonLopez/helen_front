@@ -100,13 +100,13 @@ function Login() {
     }
   };
 
-  const handleChange = (event) => {
+  const handleRegisterFormChange = (event) => {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
   };
 
   return (
-    <div className="auth container-fluid">
+    <div className="background container-fluid">
       <div className="row justify-content-center align-items-start vh-100">
         <div className="col-md-6">
           <div className="sidenav text-center">
@@ -144,6 +144,8 @@ function Login() {
           </div>
         </div>
       </div>
+
+      
 
       {/* Modal para iniciar sesión */}
       <Modal show={showLoginModal} onHide={toggleLoginModal} centered>
@@ -198,144 +200,217 @@ function Login() {
       </Modal>
 
       {/* Modal para registrarse */}
-      <Modal show={showRegisterModal} onHide={toggleRegisterModal} centered>
-  <Modal.Header closebutton>
-    <Modal.Title className="mx-auto">Registrarse</Modal.Title>
-  </Modal.Header>
-  <Modal.Body className="text-center">
-    <div className="row">
-      <div className="col-md-6">
-        <form onSubmit={handleRegister}>
-          <div className="w-72">
-            <Input
-              type="text"
-              id="username"
-              label="Usuario"
-              value={userData.username}
-              onChange={(e) => handleChange(e)}
-              required
-            />
+      <Modal
+        show={showRegisterModal}
+        onHide={toggleRegisterModal}
+        centered
+        size="lg"
+      >
+        <Modal.Header closebutton>
+          <Modal.Title className="mx-auto">Registrarse</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <div className="row">
+            <div className="col-md-6">
+              <form onSubmit={handleRegister}>
+                <div className="w-72">
+                  <Input
+                    type="text"
+                    id="username"
+                    label="Usuario"
+                    value={userData.username}
+                    name="username"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="text"
+                    id="name"
+                    label="Nombre"
+                    value={userData.name}
+                    name="name"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="text"
+                    id="firstSurname"
+                    label="Primer Apellido"
+                    value={userData.firstSurname}
+                    name="firstSurname"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="text"
+                    id="secondSurname"
+                    label="Segundo Apellido"
+                    value={userData.secondSurname}
+                    name="secondSurname"
+                    onChange={handleRegisterFormChange}
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="email"
+                    id="email"
+                    label="Correo electrónico"
+                    value={userData.email}
+                    name="email"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+              </form>
+            </div>
+            <div className="col-md-6">
+              <form onSubmit={handleRegister}>
+              <div className="w-72">
+                  <Select
+                    variant="standard"
+                    label="Género"
+                    name="gender"
+                    onChange={(value) =>
+                      handleRegisterFormChange({
+                        target: { name: "gender", value },
+                      })
+                    }
+                    required
+                  >
+                    <Option value="1">Masculino</Option>
+                    <Option value="2">Femenino</Option>
+                  </Select>
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    label="Contraseña"
+                    value={userData.password}
+                    name="password"
+                    onChange={handleRegisterFormChange}
+                    required
+                    icon={
+                      <i onClick={togglePasswordVisibility}>
+                        {showPassword ? (
+                          <AiOutlineEyeInvisible />
+                        ) : (
+                          <AiOutlineEye />
+                        )}
+                      </i>
+                    }
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    label="Confirmar Contraseña"
+                    value={userData.confirmPassword}
+                    name="confirmPassword"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="tel"
+                    id="phoneNumber"
+                    label="Número de teléfono"
+                    value={userData.phoneNumber}
+                    name="phoneNumber"
+                    onChange={handleRegisterFormChange}
+                  />
+                </div>
+                <br />
+                <div className="w-72">
+                  <Input
+                    type="text"
+                    id="city"
+                    label="Ciudad"
+                    value={userData.city}
+                    name="city"
+                    onChange={handleRegisterFormChange}
+                    required
+                  />
+                </div>
+                <br />
+              </form>
+            </div>
           </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="text"
-              id="name"
-              label="Nombre"
-              value={userData.name}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="text"
-              id="firstSurname"
-              label="Primer Apellido"
-              value={userData.firstSurname}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="text"
-              id="secondSurname"
-              label="Segundo Apellido"
-              value={userData.secondSurname}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="email"
-              id="email"
-              label="Correo electrónico"
-              value={userData.email}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-        </form>
-      </div>
-      <div className="col-md-6">
-        <form onSubmit={handleRegister}>
-        <div className="form-group">
-        <Select
-              label="Género"
-              name="gender"
-              onChange={handleChange}
-              required
+          <div className="text-center mt-4">
+            <button
+              type="submit"
+              className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
             >
-              <Option value="1">Masculino</Option>
-              <Option value="2">Femenino</Option>
-            </Select>
+              Registrarse
+            </button>
           </div>
-          <br/>
-          <div className="w-72">
-            <Input
-              type={showPassword ? "text" : "password"}
-              id="password"
-              label="Contraseña"
-              value={userData.password}
-              onChange={(e) => handleChange(e)}
-              required
-              icon={
-                <i onClick={togglePasswordVisibility}>
-                  {showPassword ? (
-                    <AiOutlineEyeInvisible />
-                  ) : (
-                    <AiOutlineEye />
-                  )}
-                </i>
-              }
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type={showPassword ? "text" : "password"}
-              id="confirmPassword"
-              label="Confirmar Contraseña"
-              value={userData.confirmPassword}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="text"
-              id="phoneNumber"
-              label="Número de teléfono"
-              value={userData.phoneNumber}
-              onChange={(e) => handleChange(e)}
-            />
-          </div>
-          <br />
-          <div className="w-72">
-            <Input
-              type="text"
-              id="city"
-              label="Ciudad"
-              value={userData.city}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          </div>
-          <br />
-          <button type="submit" className="btn btn-black">
-            Registrarse
-          </button>
-        </form>
-      </div>
-    </div>
-  </Modal.Body>
-</Modal>
-
+        </Modal.Body>
+      </Modal>
+      <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
+   <span></span>
     </div>
   );
 }
