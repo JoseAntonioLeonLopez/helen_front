@@ -324,6 +324,7 @@ function User() {
             <div className="w-72 mb-3">
               <Input
                 label="Título"
+                maxLength={30}
                 type="text"
                 id="title"
                 value={title}
@@ -333,6 +334,7 @@ function User() {
             <div className="w-72 mb-3">
               <Input
                 as="textarea"
+                maxLength={100}
                 rows={3}
                 id="description"
                 value={description}
@@ -343,6 +345,7 @@ function User() {
             <div className="w-72 mb-3">
               <Input
                 type="text"
+                maxLength={20}
                 id="city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}

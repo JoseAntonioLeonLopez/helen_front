@@ -108,6 +108,7 @@ function AddPublications({ closeModal }) {
       <br />
       <Input
         type="text"
+        maxLength={30}
         id="title"
         label="Título"
         value={title}
@@ -117,6 +118,7 @@ function AddPublications({ closeModal }) {
       <br />
       <Textarea
         label="Descripción"
+        maxLength={100}
         id="description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -126,6 +128,7 @@ function AddPublications({ closeModal }) {
       <Input
         type="text"
         id="city"
+        maxLength={20}
         label="Ciudad"
         value={city}
         onChange={(e) => setCity(e.target.value)}

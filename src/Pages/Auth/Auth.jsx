@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { API_URL } from "../../Constants/Constants";
 import axios from "axios";
-import { Input, Select, Option } from "@material-tailwind/react";
+import { Input, Select, Option, Typography } from "@material-tailwind/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import "./Auth.css";
 
@@ -14,6 +14,7 @@ function Auth() {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [userData, setUserData] = useState({
     username: "",
     name: "",
@@ -27,6 +28,42 @@ function Auth() {
     city: "",
   });
   const navigate = useNavigate();
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+
+    // Expresión regular para validar una contraseña segura
+    const strongPasswordRegex =
+      /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!strongPasswordRegex.test(newPassword)) {
+      setPasswordError(
+        <Typography
+          variant="small"
+          color="black"
+          className="mt-2 flex gap-1 font-normal"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="-mt-px h-4 w-4"
+          >
+            <path
+              fillRule="evenodd"
+              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+              clipRule="evenodd"
+            />
+          </svg>
+          La contraseña debe tener al menos 8 caracteres, incluyendo al menos
+          una letra, un número y un carácter especial.
+        </Typography>
+      );
+    } else {
+      setPasswordError("");
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -104,6 +141,8 @@ function Auth() {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
   };
+  
+  
 
   return (
     <div className="background container-fluid">
@@ -116,7 +155,10 @@ function Auth() {
                 alt="logo"
                 style={{ width: "150px", marginTop: "50px" }}
               />
-              <h2 className="pb-2 font-medium" style={{ color: "#fff", fontSize: 25 }}>
+              <h2
+                className="pb-2 font-medium"
+                style={{ color: "#fff", fontSize: 25 }}
+              >
                 ¡Comparte experiencias!
               </h2>
               <div className="row mt-3">
@@ -145,8 +187,6 @@ function Auth() {
         </div>
       </div>
 
-      
-
       {/* Modal para iniciar sesión */}
       <Modal show={showLoginModal} onHide={toggleLoginModal} centered>
         <Modal.Header>
@@ -160,6 +200,7 @@ function Auth() {
               <Input
                 type="text"
                 id="username"
+                maxLength={20}
                 label="Usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -172,6 +213,7 @@ function Auth() {
                 <Input
                   type={showPassword ? "text" : "password"}
                   id="password"
+                  maxLength={30}
                   label="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -204,7 +246,7 @@ function Auth() {
         show={showRegisterModal}
         onHide={toggleRegisterModal}
         centered
-        size="lg"
+        size="xl"
       >
         <Modal.Header>
           <Modal.Title className="mx-auto">Registrarse</Modal.Title>
@@ -213,10 +255,11 @@ function Auth() {
           <div className="row">
             <div className="col-md-6">
               <form onSubmit={handleRegister} name="register">
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="text"
                     id="username"
+                    maxLength={20}
                     label="Usuario"
                     value={userData.username}
                     name="username"
@@ -225,11 +268,12 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="text"
                     id="name"
                     label="Nombre"
+                    maxLength={20}
                     value={userData.name}
                     name="name"
                     onChange={handleRegisterFormChange}
@@ -237,10 +281,11 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="text"
                     id="firstSurname"
+                    maxLength={20}
                     label="Primer Apellido"
                     value={userData.firstSurname}
                     name="firstSurname"
@@ -249,10 +294,11 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="text"
                     id="secondSurname"
+                    maxLength={20}
                     label="Segundo Apellido"
                     value={userData.secondSurname}
                     name="secondSurname"
@@ -260,7 +306,7 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="email"
                     id="email"
@@ -275,7 +321,7 @@ function Auth() {
             </div>
             <div className="col-md-6">
               <form onSubmit={handleRegister}>
-              <div className="w-72">
+                <div className="">
                   <Select
                     variant="standard"
                     label="Género"
@@ -292,15 +338,16 @@ function Auth() {
                   </Select>
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type={showPassword ? "text" : "password"}
                     id="password"
+                    maxLength={30}
                     label="Contraseña"
-                    value={userData.password}
-                    name="password"
-                    onChange={handleRegisterFormChange}
+                    value={password}
+                    onChange={handlePasswordChange}
                     required
+                    error={passwordError ? true : false}
                     icon={
                       <i onClick={togglePasswordVisibility}>
                         {showPassword ? (
@@ -311,12 +358,15 @@ function Auth() {
                       </i>
                     }
                   />
+                  {passwordError}
                 </div>
+
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type={"password"}
                     id="confirmPassword"
+                    maxLength={30}
                     label="Confirmar Contraseña"
                     value={userData.confirmPassword}
                     name="confirmPassword"
@@ -325,7 +375,7 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="tel"
                     id="phoneNumber"
@@ -336,10 +386,11 @@ function Auth() {
                   />
                 </div>
                 <br />
-                <div className="w-72">
+                <div className="">
                   <Input
                     type="text"
                     id="city"
+                    maxLength={20}
                     label="Ciudad"
                     value={userData.city}
                     name="city"
@@ -352,67 +403,67 @@ function Auth() {
             </div>
           </div>
           <div className="text-center mt-4">
-            <form onSubmit={handleRegister} name="register" >
-            <button
-              type="submit"
-              className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-            >
-              Registrarse
-            </button>
+            <form onSubmit={handleRegister} name="register">
+              <button
+                type="submit"
+                className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+              >
+                Registrarse
+              </button>
             </form>
           </div>
         </Modal.Body>
       </Modal>
       <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
-   <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
   );
 }
