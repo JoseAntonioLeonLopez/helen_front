@@ -7,7 +7,6 @@ import Users from "./Pages/Users/Users";
 import User from "./Pages/Users/User";
 import Auth from "./Pages/Auth/Auth";
 import Logout from "./Pages/Auth/Logout";
-import AddPublications from "./Pages/Publications/AddPublications";
 import Publications from "./Pages/Publications/Publications";
 import NotFound from "./Pages/404/NotFound";
 import { ToastContainer } from "react-toastify";
@@ -55,17 +54,6 @@ function App() {
                   <Sidebar />
                   <Container fluid className="content">
                     <Publications />
-                  </Container>
-                </div>
-              }
-            />
-            <Route
-              path="/add"
-              element={
-                <div className="d-flex">
-                  <Sidebar />
-                  <Container fluid className="content">
-                    <AddPublications />
                   </Container>
                 </div>
               }

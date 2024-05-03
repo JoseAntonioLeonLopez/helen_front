@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as solidHeart,
+  faTrash,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
 import { toast } from "react-toastify";
@@ -9,12 +13,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import Swal from "sweetalert2";
+import { Modal } from "react-bootstrap";
+import { Input } from "@material-tailwind/react";
 import "./User.css";
 
 function User() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [likes, setLikes] = useState({}); 
+  const [likes, setLikes] = useState({});
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingPublication, setEditingPublication] = useState(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -105,6 +116,77 @@ function User() {
     });
   };
 
+  const handleEdit = (publication) => {
+    setEditingPublication(publication);
+    setTitle(publication.title);
+    setDescription(publication.description);
+    setCity(publication.city);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setTitle("");
+    setDescription("");
+    setCity("");
+    setEditingPublication(null);
+  };
+
+  const handleSubmitEditModal = async (e) => {
+    e.preventDefault();
+    try {
+      const token = sessionStorage.getItem("token");
+      const updatedPublication = {
+        idPublication: editingPublication.idPublication,
+        ...editingPublication,
+        title,
+        description,
+        city,
+      };
+
+      const response = await axios.put(
+        `${API_URL}/publications/${editingPublication.idPublication}`,
+        JSON.stringify(updatedPublication),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 200) {
+        const updatedUsersPublications = user.usersPublications.map(
+          (publication) =>
+            publication.idPublication === updatedPublication.idPublication
+              ? updatedPublication
+              : publication
+        );
+        setUser((prevUser) => ({
+          ...prevUser,
+          usersPublications: updatedUsersPublications,
+        }));
+
+        toast.success("Publicación actualizada exitosamente", {
+          position: "top-right",
+          autoClose: 1200,
+        });
+        handleCloseEditModal();
+      } else {
+        toast.error("Error al actualizar la puvlicación. Intentelo de nuevo más tarde.", {
+          position: "top-right",
+          autoClose: 1200,
+        });
+        console.error("Error updating publication:", response.data);
+      }
+    } catch (error) {
+      toast.error("Error al actualizar la puvlicación. Intentelo de nuevo más tarde.", {
+        position: "top-right",
+        autoClose: 1200,
+      });
+      console.error("Error updating publication:", error);
+    }
+  };
+
   return (
     <div className="mt-4 mb-4">
       {loading ? (
@@ -149,7 +231,7 @@ function User() {
             {user.usersPublications.length > 0 ? (
               <div className="row">
                 {user.usersPublications
-                  .sort((a, b) => b.idPublication - a.idPublication) // Ordenar las publicaciones por su ID
+                  .sort((a, b) => b.idPublication - a.idPublication)
                   .map((publication, index) => (
                     <div
                       key={publication.idPublication}
@@ -183,9 +265,7 @@ function User() {
                             </small>
                           </p>
                           <h5 className="card-title">{publication.title}</h5>
-                          <p className="card-text">
-                            {publication.description}
-                          </p>
+                          <p className="card-text">{publication.description}</p>
                           <div className="mb-3">
                             <FontAwesomeIcon
                               icon={solidHeart}
@@ -200,7 +280,13 @@ function User() {
                               }
                               className="btn btn-danger"
                             >
-                              Eliminar
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                            <button
+                              onClick={() => handleEdit(publication)} // Agregar esta línea
+                              className="btn btn-primary ms-2"
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
                             </button>
                           </div>
                         </div>
@@ -228,6 +314,52 @@ function User() {
           </div>
         </div>
       )}
+      {/* Modal de edición de publicación */}
+      <Modal show={showEditModal} onHide={handleCloseEditModal} centered>
+        <Modal.Header>
+          <Modal.Title className="mx-auto">Editar Publicación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <form onSubmit={handleSubmitEditModal} className="d-inline-block mx-auto">
+            <div className="w-72 mb-3">
+              <Input
+                label="Título"
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="w-72 mb-3">
+              <Input
+                as="textarea"
+                rows={3}
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                label="Descripción"
+              />
+            </div>
+            <div className="w-72 mb-3">
+              <Input
+                type="text"
+                id="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                label="Ciudad"
+              />
+            </div>
+            <div className="text-center">
+              <button
+                type="submit"
+                className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+              >
+                Guardar Cambios
+              </button>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }

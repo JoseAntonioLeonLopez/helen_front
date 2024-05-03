@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode'
+import { jwtDecode } from "jwt-decode";
 import { Modal } from "react-bootstrap";
-import AddPublications from '../../Pages/Publications/AddPublications'; // Importa el componente AddPublications
+import AddPublications from "../Publications/AddPublications";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -35,7 +35,11 @@ const Sidebar = () => {
     <nav id="sidebar">
       <div className="sidebar-header">
         <Link to="/">
-          <img className="logo-letras" src="/img/helen-letras.gif" alt="Helen Logo" />
+          <img
+            className="logo-letras"
+            src="/img/helen-letras.gif"
+            alt="Helen Logo"
+          />
         </Link>
       </div>
       <ul className="list-unstyled components">
@@ -69,14 +73,24 @@ const Sidebar = () => {
 
       {/* Modal para agregar publicaciones */}
       <Modal show={showModal} onHide={closeModal} centered>
-  <Modal.Header closeButton>
-    <Modal.Title style={{ margin: '0 auto', textAlign: 'center', width: '100%', marginLeft: 'auto', marginRight: 'auto', display: 'block' }}>Crear Publicación</Modal.Title>
-  </Modal.Header>
-  <Modal.Body className="text-center">
-    <AddPublications closeModal={closeModal} />
-  </Modal.Body>
-</Modal>
-
+        <Modal.Header>
+          <Modal.Title
+            style={{
+              margin: "0 auto",
+              textAlign: "center",
+              width: "100%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "block",
+            }}
+          >
+            Crear Publicación
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <AddPublications closeModal={closeModal} />
+        </Modal.Body>
+      </Modal>
     </nav>
   );
 };
