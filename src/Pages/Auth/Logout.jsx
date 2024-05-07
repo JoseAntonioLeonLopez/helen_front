@@ -7,7 +7,7 @@ function Logout() {
     sessionStorage.removeItem('token');
     
     // Redirigir a la página de inicio después de cerrar sesión
-    window.location.href = '/login';
+    window.location.href = '/auth';
   }, []); // Sin dependencias para que useEffect se ejecute solo una vez
 
   return (

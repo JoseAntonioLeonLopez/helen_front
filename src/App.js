@@ -5,29 +5,24 @@ import { Container } from "react-bootstrap";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Users from "./Pages/Users/Users";
 import User from "./Pages/Users/User";
-import Login from "./Pages/Auth/Login";
-import Register from "./Pages/Auth/Register";
+import Auth from "./Pages/Auth/Auth";
 import Logout from "./Pages/Auth/Logout";
-import AddPublications from "./Pages/Publications/AddPublications";
 import Publications from "./Pages/Publications/Publications";
+import TopPublications from "./Pages/Publications/TopPublications";
 import NotFound from "./Pages/404/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 
-import { PrimeReactProvider } from 'primereact/api';
-
 function App() {
   return (
-    <PrimeReactProvider>
     <Router>
       <div>
         <ToastContainer />
         <Routes>
           <Route path="*" element={<NotFound />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/auth" element={<Auth />} />
 
           {/*Rutas protegidas*/}
           <Route element={<ProtectedRoute/>}>
@@ -65,12 +60,12 @@ function App() {
               }
             />
             <Route
-              path="/add"
+              path="/top"
               element={
                 <div className="d-flex">
                   <Sidebar />
                   <Container fluid className="content">
-                    <AddPublications />
+                    <TopPublications />
                   </Container>
                 </div>
               }
@@ -80,7 +75,6 @@ function App() {
         </Routes>
       </div>
     </Router>
-    </PrimeReactProvider>
   );
 }
 
