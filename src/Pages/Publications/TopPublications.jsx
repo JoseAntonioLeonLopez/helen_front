@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { API_URL } from "../../Constants/Constants";
 import PublicationCard from "../../Components/Publications/PublicationCard";
 
-const Publication = () => {
+const TopPublication = () => {
   const [publications, setPublications] = useState([]);
   const [users, setUsers] = useState([]);
   const [likes, setLikes] = useState({});
@@ -40,7 +40,7 @@ const Publication = () => {
     const fetchData = async () => {
       try {
         const token = sessionStorage.getItem("token");
-        const response = await axios.get(`${API_URL}/publications`, {
+        const response = await axios.get(`${API_URL}/publications/top`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -94,7 +94,10 @@ const Publication = () => {
 
   useEffect(() => {
     const likesCount = publications.reduce((acc, publication) => {
-      acc[publication.idPublication] = publication.favorites.length;
+      // Verificar si publication.favorites es null o undefined antes de acceder a su propiedad length
+      if (publication.favorites) {
+        acc[publication.idPublication] = publication.favorites.length;
+      }
       return acc;
     }, {});
     setLikes(likesCount);
@@ -102,10 +105,11 @@ const Publication = () => {
 
   useEffect(() => {
     const userLikesMap = publications.reduce((acc, publication) => {
-      const likedByUser = publication.favorites.some(favorite => favorite.fkUser === userFromToken.idUser);
+      // Verificar si publication.favorites es null o undefined antes de llamar a some()
+      const likedByUser = publication.favorites && publication.favorites.some(favorite => favorite.fkUser === userFromToken.idUser);
       acc[publication.idPublication] = likedByUser;
       return acc;
-    }, {});
+    }, {});    
     setUserLikes(userLikesMap);
   }, [publications, userFromToken]);
 
@@ -164,7 +168,7 @@ const Publication = () => {
   }, []);
 
   const renderPublicationCards = () => {
-    const sortedPublications = publications.sort((a, b) => b.idPublication - a.idPublication);
+    const sortedPublications = publications.length > 0 ? publications.sort((a, b) => b.idPublication - a.idPublication) : [];
     const slicedPublications = sortedPublications.slice(0, initialLoadCount);
     const rows = [];
     for (let i = 0; i < slicedPublications.length; i += 3) {
@@ -192,26 +196,25 @@ const Publication = () => {
 
   return (
     <div className="container">
-      {loaded ? (
-        renderPublicationCards()
-      ) : (
+      {/* Manejar la carga inicial de publicaciones */}
+      {!loaded ? (
         <div className="row justify-content-center">
           <div className="col-md-12 text-center">
             <p>Cargando publicaciones...</p>
           </div>
         </div>
-      )}
-      {publications.length !== 0 ? (
-        <div></div>
       ) : (
-        <div className="row justify-content-center">
-          <div className="col-md-12 text-center">
-            <p>No hay publicaciones disponibles</p>
+        // Mostrar las publicaciones solo si loaded es true y publications no está vacío
+        publications.length > 0 ? renderPublicationCards() : (
+          <div className="row justify-content-center">
+            <div className="col-md-12 text-center">
+              <p>No hay publicaciones disponibles</p>
+            </div>
           </div>
-        </div>
+        )
       )}
     </div>
   );
 };
 
-export default Publication;
+export default TopPublication;

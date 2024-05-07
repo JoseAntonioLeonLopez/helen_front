@@ -74,6 +74,7 @@ function AddPublications({ closeModal }) {
         autoClose: 1200,
       });
       navigate("/");
+      window.location.reload();
       closeModal(); // Cierra el modal después de enviar el formulario
     } catch (error) {
       console.error("Error creating publication:", error);

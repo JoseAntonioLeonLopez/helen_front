@@ -8,6 +8,7 @@ import User from "./Pages/Users/User";
 import Auth from "./Pages/Auth/Auth";
 import Logout from "./Pages/Auth/Logout";
 import Publications from "./Pages/Publications/Publications";
+import TopPublications from "./Pages/Publications/TopPublications";
 import NotFound from "./Pages/404/NotFound";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -54,6 +55,17 @@ function App() {
                   <Sidebar />
                   <Container fluid className="content">
                     <Publications />
+                  </Container>
+                </div>
+              }
+            />
+            <Route
+              path="/top"
+              element={
+                <div className="d-flex">
+                  <Sidebar />
+                  <Container fluid className="content">
+                    <TopPublications />
                   </Container>
                 </div>
               }

@@ -58,6 +58,11 @@ const Sidebar = () => {
             <i className="fas fa-users"></i> <span>Explorar</span>
           </Link>
         </li>
+        <li className={location.pathname === "/top" ? "active" : ""}>
+          <Link to="/top">
+            <i className="fas fa-star"></i> <span>Top Publicaciones</span>
+          </Link>
+        </li>
         {/* Enlace para abrir el modal */}
         <li>
           <Link onClick={openModal}>

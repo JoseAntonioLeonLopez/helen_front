@@ -26,6 +26,7 @@ function User() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [city, setCity] = useState("");
+  const [initialLoadCount, setInitialLoadCount] = useState(6); // Número de publicaciones a cargar inicialmente
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -172,20 +173,33 @@ function User() {
         });
         handleCloseEditModal();
       } else {
-        toast.error("Error al actualizar la puvlicación. Intentelo de nuevo más tarde.", {
+        toast.error("Error al actualizar la publicación. Intentelo de nuevo más tarde.", {
           position: "top-right",
           autoClose: 1200,
         });
         console.error("Error updating publication:", response.data);
       }
     } catch (error) {
-      toast.error("Error al actualizar la puvlicación. Intentelo de nuevo más tarde.", {
+      toast.error("Error al actualizar la publicación. Intentelo de nuevo más tarde.", {
         position: "top-right",
         autoClose: 1200,
       });
       console.error("Error updating publication:", error);
     }
   };
+
+  const handleScroll = () => {
+    const bottom =
+      Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+    if (bottom) {
+      setInitialLoadCount((prevCount) => prevCount + 6);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="mt-4 mb-4">
@@ -232,6 +246,7 @@ function User() {
               <div className="row">
                 {user.usersPublications
                   .sort((a, b) => b.idPublication - a.idPublication)
+                  .slice(0, initialLoadCount)
                   .map((publication, index) => (
                     <div
                       key={publication.idPublication}
@@ -283,7 +298,7 @@ function User() {
                               <FontAwesomeIcon icon={faTrash} />
                             </button>
                             <button
-                              onClick={() => handleEdit(publication)} // Agregar esta línea
+                              onClick={() => handleEdit(publication)}
                               className="btn btn-primary ms-2"
                             >
                               <FontAwesomeIcon icon={faEdit} />

@@ -7,6 +7,7 @@ const Users = () => {
   const [userJWT, setUserJWT] = useState(null);
   const [users, setUsers] = useState([]);
   const token = sessionStorage.getItem("token");
+  const [initialLoadCount, setInitialLoadCount] = useState(6); // Número de publicaciones a cargar inicialmente
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,35 +45,54 @@ const Users = () => {
     fetchData();
   }, [token, userJWT]);
 
+  const handleScroll = () => {
+    const bottom =
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      document.documentElement.scrollHeight;
+    if (bottom) {
+      setInitialLoadCount((prevCount) => prevCount + 6);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <div>
       {users.length > 0 ? (
         <div className="row">
-          {users.map((user) => (
-            <div key={user.idUser} className="col-md-4 mb-4">
-              <div className="card">
-                <img
-                  src={user.imageUser ? user.imageUser : "/img/user-avatar.svg"}
-                  alt="Perfil"
-                  className="card-img-top mx-auto"
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
+          {users
+            .sort((a, b) => b.idUser - a.idUser)
+            .slice(0, initialLoadCount)
+            .map((user) => (
+              <div key={user.idUser} className="col-md-4 mb-4">
+                <div className="card">
+                  <img
+                    src={
+                      user.imageUser ? user.imageUser : "/img/user-avatar.svg"
+                    }
+                    alt="Perfil"
+                    className="card-img-top mx-auto"
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
 
-                <div className="card-body bg-dark bg-gradient">
-                  <h5 className="card-title text-white">{user.username}</h5>
-                  <p className="card-text text-white">
-                    {user.name} {user.firstSurname}
-                  </p>
-                  <p className="card-text text-white">{user.city}</p>
+                  <div className="card-body bg-dark bg-gradient">
+                    <h5 className="card-title text-white">{user.username}</h5>
+                    <p className="card-text text-white">
+                      {user.name} {user.firstSurname}
+                    </p>
+                    <p className="card-text text-white">{user.city}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       ) : (
         <div className="col-md-12 text-center">
