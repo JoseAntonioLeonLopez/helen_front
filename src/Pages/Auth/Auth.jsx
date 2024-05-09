@@ -33,6 +33,12 @@ function Auth() {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
+    // Actualizar el campo de contraseña en el estado de userData
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      password: newPassword,
+    }));
+
     // Expresión regular para validar una contraseña segura
     const strongPasswordRegex =
       /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -71,10 +77,28 @@ function Auth() {
 
   const toggleLoginModal = () => {
     setShowLoginModal(!showLoginModal);
+    setUsername("");
+    setPassword("");
+    setPasswordError("");
+    setShowPassword(false);
   };
 
   const toggleRegisterModal = () => {
     setShowRegisterModal(!showRegisterModal);
+    // Resetear el formulario de registro
+    setUserData({
+      username: "",
+      name: "",
+      firstSurname: "",
+      secondSurname: "",
+      gender: "1",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phoneNumber: "",
+      city: "",
+    });
+    setShowPassword(false);
   };
 
   const handleLogin = async (event) => {
@@ -110,6 +134,46 @@ function Auth() {
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    // Verificar si hay un error en la contraseña
+    if (passwordError) {
+      Swal.fire({
+        icon: "error",
+        title: "Contraseña no válida",
+        text: "La contraseña debe tener al menos 8 caracteres, incluyendo al menos una letra, un número y un carácter especial.",
+      });
+      return; // Salir de la función si la contraseña no es válida
+    }
+
+    // Verificar si todos los campos requeridos están llenos
+    const requiredFields = [
+      "username",
+      "name",
+      "firstSurname",
+      "email",
+      "password",
+      "confirmPassword",
+      "city",
+    ];
+    const missingFields = requiredFields.filter((field) => !userData[field]);
+
+    if (missingFields.length > 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos faltantes",
+        text: `Por favor, complete los campos ${missingFields.join(", ")}`,
+      });
+      return;
+    }
+
+    if (userData.password !== userData.confirmPassword) {
+      Swal.fire({
+        icon: "error",
+        title: "Las contraseñas no coinciden",
+      });
+      return; // Salir de la función si las contraseñas no coinciden
+    }
+
     try {
       const response = await axios.post(API_URL + "/register", userData, {
         headers: {
@@ -141,8 +205,6 @@ function Auth() {
     const { name, value } = event.target;
     setUserData({ ...userData, [name]: value });
   };
-  
-  
 
   return (
     <div className="background container-fluid">
