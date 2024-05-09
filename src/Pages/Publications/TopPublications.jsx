@@ -182,6 +182,7 @@ const TopPublication = () => {
             liked={userLikes[slicedPublications[j].idPublication]}
             likes={likes[slicedPublications[j].idPublication]}
             onLikeClick={() => handleLikeClick(slicedPublications[j].idPublication)}
+            showLikeButton={false}
           />
         );
       }

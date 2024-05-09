@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as regularHeart } from "@fortawesome/free-regular-svg-icons";
 
-const PublicationCard = ({ publication, user, liked, likes, onLikeClick }) => {
+const PublicationCard = ({ publication, user, liked, likes, onLikeClick, showLikeButton }) => {
   return (
     <div className="col-md-4 mb-4">
       <div className="card" style={{ marginBottom: "15px" }}>
@@ -56,16 +56,18 @@ const PublicationCard = ({ publication, user, liked, likes, onLikeClick }) => {
               <p className="card-text">{publication.description}</p>
             </React.Fragment>
           )}
-          {/* Renderizar botón de like con el número de likes */}
-          <button
-            onClick={onLikeClick}
-            style={{
-              color: liked ? "red" : "black",
-            }}
-          >
-            <FontAwesomeIcon icon={liked ? solidHeart : regularHeart} />
-            <b className="pl-2">{likes}</b>
-          </button>
+          {/* Renderizar botón de like con el número de likes si showLikeButton es true */}
+          {showLikeButton && (
+            <button
+              onClick={onLikeClick}
+              style={{
+                color: liked ? "red" : "black",
+              }}
+            >
+              <FontAwesomeIcon icon={liked ? solidHeart : regularHeart} />
+              <b className="pl-2">{likes}</b>
+            </button>
+          )}
         </div>
       </div>
     </div>
