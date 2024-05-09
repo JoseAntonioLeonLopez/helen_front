@@ -4,6 +4,7 @@ import axios from "axios";
 import { jwtDecode } from 'jwt-decode';
 import { API_URL } from "../../Constants/Constants";
 import PublicationCard from "../../Components/Publications/PublicationCard";
+import { Spinner } from "@material-tailwind/react";
 
 const Publication = () => {
   const [publications, setPublications] = useState([]);
@@ -87,10 +88,10 @@ const Publication = () => {
       }
     };
 
-    if (publications.length > 0) {
+    if (userFromToken && publications.length > 0) {
       fetchUsers();
     }
-  }, [publications]);
+  }, [publications, userFromToken]);
 
   useEffect(() => {
     const likesCount = publications.reduce((acc, publication) => {
@@ -102,8 +103,10 @@ const Publication = () => {
 
   useEffect(() => {
     const userLikesMap = publications.reduce((acc, publication) => {
-      const likedByUser = publication.favorites.some(favorite => favorite.fkUser === userFromToken.idUser);
-      acc[publication.idPublication] = likedByUser;
+      if (userFromToken) {
+        const likedByUser = publication.favorites.some(favorite => favorite.fkUser === userFromToken.idUser);
+        acc[publication.idPublication] = likedByUser;
+      }
       return acc;
     }, {});
     setUserLikes(userLikesMap);
@@ -164,6 +167,8 @@ const Publication = () => {
   }, []);
 
   const renderPublicationCards = () => {
+    if (!userFromToken) return null;
+    
     const sortedPublications = publications.sort((a, b) => b.idPublication - a.idPublication);
     const slicedPublications = sortedPublications.slice(0, initialLoadCount);
     const rows = [];
@@ -178,6 +183,7 @@ const Publication = () => {
             liked={userLikes[slicedPublications[j].idPublication]}
             likes={likes[slicedPublications[j].idPublication]}
             onLikeClick={() => handleLikeClick(slicedPublications[j].idPublication)}
+            showLikeButton={true}
           />
         );
       }
@@ -197,16 +203,14 @@ const Publication = () => {
       ) : (
         <div className="row justify-content-center">
           <div className="col-md-12 text-center">
-            <p>Cargando publicaciones...</p>
-          </div>
-        </div>
-      )}
-      {publications.length !== 0 ? (
-        <div></div>
-      ) : (
-        <div className="row justify-content-center">
-          <div className="col-md-12 text-center">
-            <p>No hay publicaciones disponibles</p>
+            {publications.length !== 0 ? (
+              <React.Fragment>
+                <p>Cargando publicaciones...</p>
+                <Spinner animation="border" variant="primary" />
+              </React.Fragment>
+            ) : (
+              <p>No hay publicaciones disponibles</p>
+            )}
           </div>
         </div>
       )}
