@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { API_URL } from "../../Constants/Constants";
 import PublicationCard from "../../Components/Publications/PublicationCard";
 import { Spinner } from "@material-tailwind/react";
@@ -20,18 +20,21 @@ const Publication = () => {
       try {
         const token = sessionStorage.getItem("token");
         if (token) {
-          const decodedToken = jwtDecode(token); 
-          const username = decodedToken.sub; 
-          const response = await axios.get(`${API_URL}/users/username/${username}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const decodedToken = jwtDecode(token);
+          const username = decodedToken.sub;
+          const response = await axios.get(
+            `${API_URL}/users/username/${username}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setUserFromToken(response.data);
         }
       } catch (error) {
         console.error("Error fetching user from token:", error);
-      } 
+      }
     };
 
     fetchUserFromToken();
@@ -104,7 +107,9 @@ const Publication = () => {
   useEffect(() => {
     const userLikesMap = publications.reduce((acc, publication) => {
       if (userFromToken) {
-        const likedByUser = publication.favorites.some(favorite => favorite.fkUser === userFromToken.idUser);
+        const likedByUser = publication.favorites.some(
+          (favorite) => favorite.fkUser === userFromToken.idUser
+        );
         acc[publication.idPublication] = likedByUser;
       }
       return acc;
@@ -116,13 +121,16 @@ const Publication = () => {
     try {
       const token = sessionStorage.getItem("token");
       const liked = userLikes[publicationId];
-  
+
       if (liked) {
-        await axios.delete(`${API_URL}/userFav/${userFromToken.idUser}/${publicationId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.delete(
+          `${API_URL}/userFav/${userFromToken.idUser}/${publicationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } else {
         await axios.post(
           `${API_URL}/userFav/${publicationId}`,
@@ -134,11 +142,13 @@ const Publication = () => {
           }
         );
       }
-  
+
       const updatedLikes = { ...likes };
-      updatedLikes[publicationId] = liked ? updatedLikes[publicationId] - 1 : updatedLikes[publicationId] + 1;
+      updatedLikes[publicationId] = liked
+        ? updatedLikes[publicationId] - 1
+        : updatedLikes[publicationId] + 1;
       setLikes(updatedLikes);
-      
+
       setUserLikes((prevUserLikes) => ({
         ...prevUserLikes,
         [publicationId]: !liked,
@@ -151,11 +161,12 @@ const Publication = () => {
         text: "Ocurrió un error al dar/quitar like a la publicación. Por favor, inténtalo de nuevo más tarde.",
       });
     }
-  };  
+  };
 
   const handleScroll = () => {
     const bottom =
-      Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      document.documentElement.scrollHeight;
     if (bottom) {
       setInitialLoadCount((prevCount) => prevCount + 6);
     }
@@ -168,8 +179,10 @@ const Publication = () => {
 
   const renderPublicationCards = () => {
     if (!userFromToken) return null;
-    
-    const sortedPublications = publications.sort((a, b) => b.idPublication - a.idPublication);
+
+    const sortedPublications = publications.sort(
+      (a, b) => b.idPublication - a.idPublication
+    );
     const slicedPublications = sortedPublications.slice(0, initialLoadCount);
     const rows = [];
     for (let i = 0; i < slicedPublications.length; i += 3) {
@@ -182,7 +195,9 @@ const Publication = () => {
             user={users[j]}
             liked={userLikes[slicedPublications[j].idPublication]}
             likes={likes[slicedPublications[j].idPublication]}
-            onLikeClick={() => handleLikeClick(slicedPublications[j].idPublication)}
+            onLikeClick={() =>
+              handleLikeClick(slicedPublications[j].idPublication)
+            }
             showLikeButton={true}
           />
         );
@@ -198,22 +213,22 @@ const Publication = () => {
 
   return (
     <div className="container">
-      {loaded ? (
-        renderPublicationCards()
-      ) : (
-        <div className="row justify-content-center">
-          <div className="col-md-12 text-center">
-            {publications.length !== 0 ? (
-              <React.Fragment>
-                <p>Cargando publicaciones...</p>
-                <Spinner animation="border" variant="primary" />
-              </React.Fragment>
+      <div className="row justify-content-center">
+        <div className="col-md-12 text-center">
+          {loaded ? (
+            publications.length !== 0 ? (
+              renderPublicationCards()
             ) : (
               <p>No hay publicaciones disponibles</p>
-            )}
-          </div>
+            )
+          ) : (
+            <React.Fragment>
+              <p>Cargando publicaciones...</p>
+              <Spinner animation="border" variant="primary" />
+            </React.Fragment>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
