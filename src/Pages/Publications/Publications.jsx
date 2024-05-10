@@ -213,28 +213,26 @@ const Publication = () => {
 
   return (
     <div className="container">
-      
-          {loaded ? (
-            publications.length !== 0 ? (
-              renderPublicationCards()
-            ) : (
-              <div className="row justify-content-center">
-        <div className="col-md-12 text-center">
+      {loaded ? (
+        publications.length !== 0 ? (
+          renderPublicationCards()
+        ) : (
+          <div className="row justify-content-center">
+            <div className="col-md-12 text-center">
               <p>No hay publicaciones disponibles</p>
-              </div>
-      </div>
-            )
-          ) : (
-            <div className="row justify-content-center">
-        <div className="col-md-12 text-center">
+            </div>
+          </div>
+        )
+      ) : (
+        <div className="row justify-content-center">
+          <div className="col-md-12 text-center">
             <React.Fragment>
               <p>Cargando publicaciones...</p>
               <Spinner animation="border" variant="primary" />
             </React.Fragment>
-            </div>
-            </div>
-          )}
-        
+          </div>
+        </div>
+      )}
     </div>
   );
 };
