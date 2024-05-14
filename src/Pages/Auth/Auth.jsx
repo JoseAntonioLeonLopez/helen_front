@@ -6,6 +6,7 @@ import { API_URL } from "../../Constants/Constants";
 import axios from "axios";
 import { Input, Select, Option, Typography } from "@material-tailwind/react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { Spinner } from "@material-tailwind/react";
 import "./Auth.css";
 
 function Auth() {
@@ -15,6 +16,8 @@ function Auth() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [file, setFile] = useState(null);
+  const [registering, setRegistering] = useState(false);
   const [userData, setUserData] = useState({
     username: "",
     name: "",
@@ -174,10 +177,25 @@ function Auth() {
       return; // Salir de la función si las contraseñas no coinciden
     }
 
+    // Cambiar el estado a 'registering' para mostrar el spinner
+    setRegistering(true);
+
     try {
-      const response = await axios.post(API_URL + "/register", userData, {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("username", userData.username);
+      formData.append("name", userData.name);
+      formData.append("firstSurname", userData.firstSurname);
+      formData.append("secondSurname", userData.secondSurname);
+      formData.append("gender", userData.gender);
+      formData.append("email", userData.email);
+      formData.append("password", userData.password);
+      formData.append("phoneNumber", userData.phoneNumber);
+      formData.append("city", userData.city);
+
+      const response = await axios.post(API_URL + "/register", formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
 
@@ -198,6 +216,9 @@ function Auth() {
         title: "Error",
         text: "Error al registrar el usuario",
       });
+    } finally {
+      // Cambiar el estado a 'registering' a 'false' después de completar la solicitud
+      setRegistering(false);
     }
   };
 
@@ -461,19 +482,37 @@ function Auth() {
                   />
                 </div>
                 <br />
+                <div className="text-center">
+                  <Input
+                    type="file"
+                    id="image"
+                    label="Imagen perfil"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    className="form-control-file mx-auto"
+                  />
+                </div>
               </form>
             </div>
           </div>
           <div className="text-center mt-4">
-            <form onSubmit={handleRegister} name="register">
-              <button
-                type="submit"
-                className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-              >
-                Registrarse
-              </button>
-            </form>
-          </div>
+  {registering ? (
+    <div className="mx-auto" role="status">
+      <Spinner />
+    </div>
+  ) : (
+    <form onSubmit={handleRegister} name="register">
+      <button
+        type="submit"
+        className="form-control-file mx-auto rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+      >
+        Registrarse
+      </button>
+    </form>
+  )}
+</div>
+
+
         </Modal.Body>
       </Modal>
       <span></span>
