@@ -67,7 +67,7 @@ const Users = () => {
             .sort((a, b) => b.idUser - a.idUser)
             .slice(0, initialLoadCount)
             .map((user) => (
-              <div key={user.idUser} className="col-md-4 mb-4">
+              <div key={user.idUser} className="col-md-4 mb-3">
                 <div className="card">
                   <img
                     src={
@@ -76,19 +76,18 @@ const Users = () => {
                     alt="Perfil"
                     className="card-img-top mx-auto"
                     style={{
-                      width: "150px",
-                      height: "150px",
-                      borderRadius: "50%",
+                      width: "100%",
+                      height: "200px",
                       objectFit: "cover",
                     }}
                   />
-
+  
                   <div className="card-body bg-dark bg-gradient">
-                    <h5 className="card-title text-white">{user.username}</h5>
-                    <p className="card-text text-white">
+                    <b className="card-title text-white">{user.username}</b>
+                    <p className="card-text text-white  mt-2">
                       {user.name} {user.firstSurname}
                     </p>
-                    <p className="card-text text-white">{user.city}</p>
+                    <i className="card-text text-white">{user.city}</i>
                   </div>
                 </div>
               </div>
@@ -100,7 +99,7 @@ const Users = () => {
         </div>
       )}
     </div>
-  );
+  );  
 };
 
 export default Users;
